@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -93,7 +94,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
@@ -104,5 +110,101 @@
 
   .feature-gradient {
     background: linear-gradient(to bottom, #F8FAFC, #EFF6FF);
+  }
+
+  /* Glassmorphism effects */
+  .glass-card {
+    @apply backdrop-blur-sm bg-white/80 border border-white/20;
+  }
+
+  .neo-blur {
+    @apply backdrop-blur-xl bg-black/40 border border-white/10;
+  }
+
+  /* Shadow effects */
+  .shadow-glow {
+    box-shadow: 0 0 25px rgba(155, 135, 245, 0.5);
+  }
+
+  .shadow-glow-small {
+    box-shadow: 0 0 15px rgba(155, 135, 245, 0.4);
+  }
+
+  .shadow-glow-subtle {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 
+                0 0 10px rgba(155, 135, 245, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .shadow-glow-subtle-hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 
+                0 0 15px rgba(155, 135, 245, 0.2);
+  }
+
+  .shadow-neumorphic {
+    box-shadow: 8px 8px 16px rgba(200, 200, 200, 0.2),
+               -8px -8px 16px rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+  }
+
+  .shadow-neumorphic-hover {
+    box-shadow: 12px 12px 24px rgba(200, 200, 200, 0.3),
+               -12px -12px 24px rgba(255, 255, 255, 0.8);
+  }
+
+  /* Text gradient */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent;
+  }
+
+  /* Animations */
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-scan-line {
+    animation: scanLine 2s linear infinite;
+  }
+
+  .animate-progress-bar {
+    animation: progressBar 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes scanLine {
+    0% {
+      top: 0;
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes progressBar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 75%;
+    }
+    75% {
+      width: 95%;
+    }
+    100% {
+      width: 95%;
+    }
   }
 }

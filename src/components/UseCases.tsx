@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const useCases = [
   {
@@ -41,56 +42,137 @@ const useCases = [
 ];
 
 const UseCases = () => {
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <section id="use-cases" className="py-16 md:py-24 bg-gray-50">
-      <div className="container mx-auto px-6 md:px-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Use Cases</h2>
+    <section id="use-cases" className="py-20 md:py-32 bg-gray-50 relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute w-full h-full">
+          {[...Array(10)].map((_, i) => (
+            <div 
+              key={i} 
+              className="absolute bg-primary rounded-full opacity-20"
+              style={{
+                width: `${Math.random() * 300 + 50}px`,
+                height: `${Math.random() * 300 + 50}px`,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                filter: 'blur(50px)'
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      
+      <div className="container mx-auto px-6 md:px-10 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-primary font-medium mb-3 inline-block">For Everyone</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Use Cases</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             See how different teams are using BlackBox AI to streamline their testing processes.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <motion.div 
+          className="grid md:grid-cols-2 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {useCases.map((useCase, index) => (
-            <div 
+            <motion.div 
               key={index} 
-              className="bg-white p-8 rounded-lg shadow-sm flex flex-col md:flex-row gap-6 border border-gray-100"
+              className="glass-card bg-white p-8 rounded-xl shadow-neumorphic border border-gray-100 flex flex-col md:flex-row gap-6 hover:shadow-neumorphic-hover transition-all duration-300"
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
             >
-              <div className="bg-primary/10 p-4 rounded-full h-fit">
+              <div className="bg-primary/10 p-4 rounded-xl h-fit">
                 {useCase.icon}
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2">
+                <h3 className="text-2xl font-bold mb-2">
                   {useCase.title}
                 </h3>
                 <p className="text-gray-600">
                   {useCase.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Benefits section */}
-        <div className="mt-16">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold">Why Choose BlackBox AI?</h3>
-          </div>
+        <div className="mt-20">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h3 className="text-2xl md:text-3xl font-bold">Why Choose BlackBox AI?</h3>
+          </motion.div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg text-center border border-gray-100">
-              <div className="text-3xl font-bold text-primary mb-2">80%</div>
+            <motion.div 
+              className="bg-white p-6 rounded-xl text-center border border-gray-100 shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="text-4xl font-bold text-gradient-primary mb-2">80%</div>
               <p className="text-gray-600">Reduction in manual testing time</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg text-center border border-gray-100">
-              <div className="text-3xl font-bold text-primary mb-2">90%</div>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-6 rounded-xl text-center border border-gray-100 shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="text-4xl font-bold text-gradient-primary mb-2">90%</div>
               <p className="text-gray-600">Bugs caught before production</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg text-center border border-gray-100">
-              <div className="text-3xl font-bold text-primary mb-2">3x</div>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-white p-6 rounded-xl text-center border border-gray-100 shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="text-4xl font-bold text-gradient-primary mb-2">3x</div>
               <p className="text-gray-600">Faster development iterations</p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
   {
@@ -58,50 +60,97 @@ const features = [
   },
 ];
 
+const FeatureCard = ({ feature, index }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <Card className="h-full bg-white backdrop-blur-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="bg-primary/10 p-3 w-fit rounded-lg mb-4">
+            {feature.icon}
+          </div>
+          <h3 className="text-xl font-bold mb-2">
+            {feature.title}
+          </h3>
+          <p className="text-gray-600">
+            {feature.description}
+          </p>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
 const Features = () => {
   return (
-    <section id="features" className="py-16 md:py-24">
-      <div className="container mx-auto px-6 md:px-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Key Features</h2>
+    <section id="features" className="py-20 md:py-32 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-primary/30 filter blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-primary/20 filter blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-6 md:px-10 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-primary font-medium mb-3 inline-block">Powerful Toolset</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Key Features</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             BlackBox AI delivers everything you need to automate and improve your website testing process.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="bg-white p-6 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md"
-            >
-              <div className="bg-primary/10 p-3 w-fit rounded-full mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">
-                {feature.description}
-              </p>
-            </div>
+            <FeatureCard key={index} feature={feature} index={index} />
           ))}
         </div>
 
         {/* Feature screenshot or diagram */}
-        <div className="mt-16 bg-gray-100 rounded-lg p-6 md:p-10 max-w-5xl mx-auto">
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+        <motion.div 
+          className="mt-20 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.h3 
+            className="text-2xl font-bold mb-6 text-center"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Comprehensive Bug Reports
+          </motion.h3>
+          
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
             <div className="bg-gray-50 p-4 border-b border-gray-200">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                <div className="mx-auto text-sm text-gray-500">BlackBox AI Testing Report</div>
+                <div className="mx-auto text-sm font-medium text-gray-500">BlackBox AI Testing Report</div>
               </div>
             </div>
             <div className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
-                <div className="md:w-1/2 bg-gray-50 rounded-lg p-4 border border-gray-100">
+                <motion.div 
+                  className="md:w-1/2 bg-gray-50 rounded-lg p-4 border border-gray-100"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
                   <div className="text-lg font-bold mb-3">Test Results</div>
                   <div className="space-y-3">
                     <div className="flex items-center">
@@ -123,8 +172,14 @@ const Features = () => {
                       <span className="text-sm">Login form validation issue</span>
                     </div>
                   </div>
-                </div>
-                <div className="md:w-1/2">
+                </motion.div>
+                <motion.div 
+                  className="md:w-1/2"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
                   <div className="text-lg font-bold mb-3">Bug Details</div>
                   <div className="bg-red-50 p-4 rounded-lg border border-red-100">
                     <div className="text-red-700 font-medium mb-2">Login Form Validation Issue</div>
@@ -137,11 +192,11 @@ const Features = () => {
                       Add client-side validation check
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
