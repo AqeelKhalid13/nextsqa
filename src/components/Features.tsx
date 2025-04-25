@@ -68,15 +68,15 @@ const FeatureCard = ({ feature, index }) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Card className="h-full bg-white backdrop-blur-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card className="h-full neo-blur transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
         <CardContent className="p-6">
           <div className="bg-primary/10 p-3 w-fit rounded-lg mb-4">
             {feature.icon}
           </div>
-          <h3 className="text-xl font-bold mb-2">
+          <h3 className="text-xl font-bold mb-2 text-white">
             {feature.title}
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             {feature.description}
           </p>
         </CardContent>
@@ -87,7 +87,7 @@ const FeatureCard = ({ feature, index }) => {
 
 const Features = () => {
   return (
-    <section id="features" className="py-20 md:py-32 relative overflow-hidden">
+    <section id="features" className="py-20 md:py-32 relative overflow-hidden bg-secondary/30">
       {/* Background elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-primary/30 filter blur-3xl"></div>
@@ -103,8 +103,8 @@ const Features = () => {
           transition={{ duration: 0.5 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">Powerful Toolset</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Key Features</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Key Features</h2>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             BlackBox AI delivers everything you need to automate and improve your website testing process.
           </p>
         </motion.div>
@@ -117,14 +117,14 @@ const Features = () => {
 
         {/* Feature screenshot or diagram */}
         <motion.div 
-          className="mt-20 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden"
+          className="mt-20 neo-blur rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
           <motion.h3 
-            className="text-2xl font-bold mb-6 text-center"
+            className="text-2xl font-bold mb-6 text-center text-white"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -133,43 +133,43 @@ const Features = () => {
             Comprehensive Bug Reports
           </motion.h3>
           
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-            <div className="bg-gray-50 p-4 border-b border-gray-200">
+          <div className="neo-blur rounded-xl overflow-hidden border border-gray-800">
+            <div className="bg-gray-900 p-4 border-b border-gray-800">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                <div className="mx-auto text-sm font-medium text-gray-500">BlackBox AI Testing Report</div>
+                <div className="mx-auto text-sm font-medium text-gray-400">BlackBox AI Testing Report</div>
               </div>
             </div>
             <div className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 <motion.div 
-                  className="md:w-1/2 bg-gray-50 rounded-lg p-4 border border-gray-100"
+                  className="md:w-1/2 bg-gray-900 rounded-lg p-4 border border-gray-800"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <div className="text-lg font-bold mb-3">Test Results</div>
+                  <div className="text-lg font-bold mb-3 text-white">Test Results</div>
                   <div className="space-y-3">
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-sm">Homepage loads properly</span>
+                      <span className="text-sm text-gray-300">Homepage loads properly</span>
                     </div>
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-sm">Navigation menu accessible</span>
+                      <span className="text-sm text-gray-300">Navigation menu accessible</span>
                     </div>
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-sm">Login form validation issue</span>
+                      <span className="text-sm text-gray-300">Login form validation issue</span>
                     </div>
                   </div>
                 </motion.div>
@@ -180,14 +180,14 @@ const Features = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  <div className="text-lg font-bold mb-3">Bug Details</div>
-                  <div className="bg-red-50 p-4 rounded-lg border border-red-100">
-                    <div className="text-red-700 font-medium mb-2">Login Form Validation Issue</div>
-                    <p className="text-sm text-gray-700 mb-2">
+                  <div className="text-lg font-bold mb-3 text-white">Bug Details</div>
+                  <div className="bg-red-950/30 p-4 rounded-lg border border-red-900/50">
+                    <div className="text-red-400 font-medium mb-2">Login Form Validation Issue</div>
+                    <p className="text-sm text-gray-300 mb-2">
                       The login form accepts submissions with an empty email field.
                     </p>
-                    <div className="text-sm font-medium text-gray-700 mt-4 mb-1">Recommendation:</div>
-                    <div className="bg-white p-3 rounded border border-gray-200 text-sm font-mono">
+                    <div className="text-sm font-medium text-gray-300 mt-4 mb-1">Recommendation:</div>
+                    <div className="bg-gray-900 p-3 rounded border border-gray-800 text-sm font-mono text-gray-300">
                       Add required attribute to email input<br />
                       Add client-side validation check
                     </div>
