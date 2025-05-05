@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -36,52 +37,64 @@ const HowItWorks = () => {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.3
+        staggerChildren: 0.3,
+        delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 50 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5
+        duration: 0.8,
+        ease: [0.1, 0.9, 0.2, 1]
       }
     }
   };
 
   return (
     <section id="how-it-works" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 1.5 }}
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
+        }}
+      />
+
       <div className="container mx-auto px-6 md:px-10 relative z-10">
         <div className="text-center mb-16">
           <motion.span 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
             className="text-primary font-medium mb-3 inline-block"
           >
             Simple Process
           </motion.span>
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-3xl md:text-5xl font-bold mb-6"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-3xl md:text-5xl font-bold mb-6 text-white"
           >
             How It Works
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             className="text-lg text-gray-300 max-w-2xl mx-auto"
           >
-            Black Box makes website testing simple with just three easy steps. No complex setup required.
+            NextSQA makes website testing simple with just three easy steps. No complex setup required.
           </motion.p>
         </div>
 
@@ -96,12 +109,36 @@ const HowItWorks = () => {
             <motion.div
               key={index}
               variants={itemVariants} 
-              className="neo-blur p-8 rounded-xl border border-white/10 flex flex-col items-center text-center transition-all duration-300 hover:shadow-glow-subtle"
+              whileHover={{ 
+                y: -10, 
+                scale: 1.03, 
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                borderColor: "rgba(255, 255, 255, 0.2)" 
+              }}
+              className="neo-blur p-8 rounded-xl border border-white/10 flex flex-col items-center text-center transition-all duration-300"
             >
-              <div className="bg-primary/10 p-4 rounded-full mb-6 transform transition-transform duration-300 group-hover:scale-110 relative">
-                <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse-slow"></div>
+              <motion.div 
+                whileHover={{ 
+                  rotate: [0, -10, 10, 0],
+                  scale: 1.1
+                }}
+                transition={{ duration: 0.5 }}
+                className="bg-primary/10 p-4 rounded-full mb-6 relative"
+              >
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.4, 1],
+                    opacity: [0.5, 0, 0.5]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 bg-primary/5 rounded-full"
+                />
                 {step.icon}
-              </div>
+              </motion.div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 {step.title}
               </h3>

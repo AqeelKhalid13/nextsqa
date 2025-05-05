@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -45,28 +46,47 @@ const UseCases = () => {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
+      transition: { 
+        duration: 0.7, 
+        ease: [0.25, 0.1, 0.25, 1] 
+      }
     }
   };
 
   return (
     <section id="use-cases" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
       {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="absolute inset-0 opacity-5">
         <div className="absolute w-full h-full">
           {[...Array(10)].map((_, i) => (
-            <div 
+            <motion.div 
               key={i} 
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.3, 0.2],
+                rotate: [0, 45, 0]
+              }}
+              transition={{
+                duration: Math.random() * 10 + 20,
+                ease: "easeInOut",
+                repeat: Infinity,
+                delay: i * 2
+              }}
               className="absolute bg-primary rounded-full opacity-20"
               style={{
                 width: `${Math.random() * 300 + 50}px`,
@@ -78,20 +98,20 @@ const UseCases = () => {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
       
       <div className="container mx-auto px-6 md:px-10 relative z-10">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">For Everyone</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Use Cases</h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            See how different teams are using BlackBox AI to streamline their testing processes.
+            See how different teams are using NextSQA to streamline their testing processes.
           </p>
         </motion.div>
 
@@ -105,13 +125,24 @@ const UseCases = () => {
           {useCases.map((useCase, index) => (
             <motion.div 
               key={index} 
-              className="neo-blur p-8 rounded-xl border border-gray-800 flex flex-col md:flex-row gap-6 hover:shadow-neumorphic-hover transition-all duration-300"
+              className="neo-blur p-8 rounded-xl border border-gray-800 flex flex-col md:flex-row gap-6 hover:shadow-neumorphic transition-all duration-300"
               variants={itemVariants}
-              whileHover={{ y: -5 }}
+              whileHover={{ 
+                y: -10, 
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
+                borderColor: "rgba(255, 255, 255, 0.15)"
+              }}
             >
-              <div className="bg-primary/10 p-4 rounded-xl h-fit">
+              <motion.div 
+                className="bg-primary/10 p-4 rounded-xl h-fit"
+                whileHover={{ 
+                  rotate: [0, 5, -5, 0],
+                  scale: 1.1,
+                  transition: { duration: 0.5 }
+                }}
+              >
                 {useCase.icon}
-              </div>
+              </motion.div>
               <div>
                 <h3 className="text-2xl font-bold mb-2 text-white">
                   {useCase.title}

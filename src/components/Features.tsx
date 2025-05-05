@@ -63,16 +63,28 @@ const features = [
 const FeatureCard = ({ feature, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+      whileHover={{ 
+        y: -10, 
+        scale: 1.02,
+        transition: { type: "spring", stiffness: 300, damping: 15 }
+      }}
     >
-      <Card className="h-full neo-blur transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card className="h-full neo-blur border border-white/10 transition-all duration-300">
         <CardContent className="p-6">
-          <div className="bg-primary/10 p-3 w-fit rounded-lg mb-4">
+          <motion.div 
+            className="bg-primary/10 p-3 w-fit rounded-lg mb-4"
+            whileHover={{ 
+              rotate: [0, 5, -5, 0], 
+              scale: 1.1, 
+              transition: { duration: 0.5 }
+            }}
+          >
             {feature.icon}
-          </div>
+          </motion.div>
           <h3 className="text-xl font-bold mb-2 text-white">
             {feature.title}
           </h3>
@@ -89,23 +101,50 @@ const Features = () => {
   return (
     <section id="features" className="py-20 md:py-32 relative overflow-hidden bg-secondary/30">
       {/* Background elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-primary/30 filter blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-primary/20 filter blur-3xl"></div>
-      </div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="absolute inset-0 opacity-10"
+      >
+        <motion.div 
+          animate={{ 
+            rotate: 360,
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ 
+            duration: 50, 
+            ease: "linear", 
+            repeat: Infinity 
+          }}
+          className="absolute top-20 right-20 w-72 h-72 rounded-full bg-primary/30 filter blur-3xl"
+        />
+        <motion.div 
+          animate={{ 
+            rotate: -360,
+            scale: [1, 1.2, 1],
+          }}
+          transition={{ 
+            duration: 70, 
+            ease: "linear", 
+            repeat: Infinity 
+          }}
+          className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-primary/20 filter blur-3xl"
+        />
+      </motion.div>
 
       <div className="container mx-auto px-6 md:px-10 relative z-10">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">Powerful Toolset</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Key Features</h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            BlackBox AI delivers everything you need to automate and improve your website testing process.
+            NextSQA delivers everything you need to automate and improve your website testing process.
           </p>
         </motion.div>
 
@@ -117,15 +156,20 @@ const Features = () => {
 
         {/* Feature screenshot or diagram */}
         <motion.div 
-          className="mt-20 neo-blur rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden"
+          className="mt-20 neo-blur rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden border border-white/10"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
+          whileHover={{
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)",
+            borderColor: "rgba(255, 255, 255, 0.2)",
+            transition: { duration: 0.5 }
+          }}
         >
           <motion.h3 
             className="text-2xl font-bold mb-6 text-center text-white"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -134,64 +178,106 @@ const Features = () => {
           </motion.h3>
           
           <div className="neo-blur rounded-xl overflow-hidden border border-gray-800">
-            <div className="bg-gray-900 p-4 border-b border-gray-800">
+            <motion.div 
+              className="bg-gray-900 p-4 border-b border-gray-800"
+              whileHover={{
+                backgroundColor: "rgba(17, 24, 39, 0.8)",
+                transition: { duration: 0.3 }
+              }}
+            >
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                <div className="mx-auto text-sm font-medium text-gray-400">BlackBox AI Testing Report</div>
+                <div className="mx-auto text-sm font-medium text-gray-400">NextSQA Testing Report</div>
               </div>
-            </div>
+            </motion.div>
             <div className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 <motion.div 
-                  className="md:w-1/2 bg-gray-900 rounded-lg p-4 border border-gray-800"
-                  initial={{ opacity: 0, x: -20 }}
+                  className="md:w-1/2 bg-gray-900/70 rounded-lg p-4 border border-gray-800"
+                  initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  whileHover={{
+                    scale: 1.03,
+                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    transition: { type: "spring", stiffness: 400, damping: 10 }
+                  }}
                 >
                   <div className="text-lg font-bold mb-3 text-white">Test Results</div>
                   <div className="space-y-3">
-                    <div className="flex items-center">
+                    <motion.div 
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span className="text-sm text-gray-300">Homepage loads properly</span>
-                    </div>
-                    <div className="flex items-center">
+                    </motion.div>
+                    <motion.div 
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.5 }}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span className="text-sm text-gray-300">Navigation menu accessible</span>
-                    </div>
-                    <div className="flex items-center">
+                    </motion.div>
+                    <motion.div 
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.6 }}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
                       <span className="text-sm text-gray-300">Login form validation issue</span>
-                    </div>
+                    </motion.div>
                   </div>
                 </motion.div>
                 <motion.div 
                   className="md:w-1/2"
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
                 >
                   <div className="text-lg font-bold mb-3 text-white">Bug Details</div>
-                  <div className="bg-red-950/30 p-4 rounded-lg border border-red-900/50">
+                  <motion.div 
+                    className="bg-red-950/30 p-4 rounded-lg border border-red-900/50"
+                    whileHover={{
+                      scale: 1.03,
+                      borderColor: "rgba(248, 113, 113, 0.4)",
+                      transition: { type: "spring", stiffness: 400, damping: 10 }
+                    }}
+                  >
                     <div className="text-red-400 font-medium mb-2">Login Form Validation Issue</div>
                     <p className="text-sm text-gray-300 mb-2">
                       The login form accepts submissions with an empty email field.
                     </p>
                     <div className="text-sm font-medium text-gray-300 mt-4 mb-1">Recommendation:</div>
-                    <div className="bg-gray-900 p-3 rounded border border-gray-800 text-sm font-mono text-gray-300">
+                    <motion.div 
+                      className="bg-gray-900/80 p-3 rounded border border-gray-800 text-sm font-mono text-gray-300"
+                      whileHover={{
+                        backgroundColor: "rgba(17, 24, 39, 0.9)",
+                        borderColor: "rgba(255, 255, 255, 0.15)",
+                      }}
+                    >
                       Add required attribute to email input<br />
                       Add client-side validation check
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 </motion.div>
               </div>
             </div>
