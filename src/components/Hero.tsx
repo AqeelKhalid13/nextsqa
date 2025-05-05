@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from 'framer-motion';
 
 const Hero = () => {
@@ -101,13 +100,8 @@ const Hero = () => {
               custom={4}
               className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-medium px-8 h-12 shadow-glow transition-all duration-300">
-                Start Free Trial
+                Join our Wait List
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              
-              <Button size="lg" variant="outline" className="text-white border-white/20 backdrop-blur-sm bg-white/5 hover:bg-white/10 h-12 font-medium">
-                <Play className="mr-2 h-4 w-4" />
-                See It In Action
               </Button>
             </motion.div>
           </motion.div>

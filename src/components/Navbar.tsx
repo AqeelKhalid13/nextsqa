@@ -1,12 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from 'framer-motion';
+import { useMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isMobile = useMobile();
 
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -17,225 +21,204 @@ const Navbar = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // Animation variants
+  const navVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    }
   };
 
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i) => ({ 
+  const mobileMenuVariants = {
+    hidden: { opacity: 0, x: "100%" },
+    visible: { 
       opacity: 1, 
-      y: 0, 
-      transition: { 
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: [0, 0.71, 0.2, 1.01]
+      x: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
-    })
+    },
+    exit: { 
+      opacity: 0, 
+      x: "100%", 
+      transition: {
+        duration: 0.2,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    }
   };
+
+  const mobileItemVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      x: 20,
+      transition: {
+        duration: 0.2 
+      }
+    }
+  };
+
+  const navLinks = [
+    { name: "How it works", url: "#how-it-works" },
+    { name: "Features", url: "#features" },
+    { name: "Use Cases", url: "#use-cases" },
+    { name: "FAQs", url: "#faqs" },
+    { name: "Pricing", url: "#pricing" }
+  ];
 
   return (
-    <nav 
-      className={`py-4 px-6 md:px-10 w-full sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
-      }`}
+    <motion.header 
+      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-lg bg-background/70 shadow-sm' : ''}`}
+      initial="hidden"
+      animate="visible"
+      variants={navVariants}
     >
-      <div className="container mx-auto flex items-center justify-between">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center"
-        >
-          <motion.a 
-            href="/" 
-            className="text-2xl font-bold text-navy flex items-center group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+      <div className="container mx-auto px-6 md:px-10">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex items-center space-x-2"
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <motion.span 
-              className="bg-gradient-to-r from-primary to-primary/80 rounded-lg p-2 mr-2 transition-all duration-300"
-              whileHover={{ 
-                boxShadow: "0 0 15px rgba(79, 70, 229, 0.6)",
-              }}
-            >
-              <span className="text-white font-bold">NS</span>
-            </motion.span>
-            <span className={`transition-colors duration-300 ${isScrolled ? 'text-navy' : 'text-white'}`}>NextSQA</span>
-          </motion.a>
-        </motion.div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button 
-            onClick={toggleMenu} 
-            className={`transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}
-          >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.svg 
-                  key="close"
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }}
-                  transition={{ duration: 0.2 }}
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </motion.svg>
-              ) : (
-                <motion.svg 
-                  key="menu"
-                  initial={{ opacity: 0, rotate: 90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: -90 }}
-                  transition={{ duration: 0.2 }}
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                </motion.svg>
-              )}
-            </AnimatePresence>
-          </button>
-        </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
-          {["Features", "How It Works", "Use Cases"].map((item, i) => (
-            <motion.a 
-              key={item}
-              custom={i}
-              variants={navItemVariants}
-              initial="hidden"
-              animate="visible"
-              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className={`font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:rounded-full after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
-                isScrolled ? 'text-gray-700 hover:text-primary' : 'text-gray-200 hover:text-white'
-              }`}
-            >
-              {item}
-            </motion.a>
-          ))}
-          
-          <motion.div
-            custom={3}
-            variants={navItemVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <Button 
-              variant="ghost" 
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Sign In
-            </Button>
+            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+              <span className="text-lg font-bold text-white">N</span>
+            </div>
+            <span className="text-xl font-bold text-white">NextSQA</span>
           </motion.div>
           
-          <motion.div
-            custom={4}
-            variants={navItemVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          {/* Desktop Navigation */}
+          {!isMobile && (
+            <motion.nav variants={itemVariants} className="hidden md:flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <motion.a 
+                  key={link.name}
+                  href={link.url}
+                  className="text-gray-200 hover:text-white transition-colors"
+                  whileHover={{ y: -2 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+            </motion.nav>
+          )}
+          
+          {/* Call to action buttons */}
+          {!isMobile && (
+            <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
+              <motion.div>
+                <Button
+                  variant="ghost"
+                  className="text-white hover:bg-white/10"
+                >
+                  Log in
+                </Button>
+              </motion.div>
+              <motion.div>
+                <Button
+                  className="bg-primary hover:bg-primary/90 text-white"
+                >
+                  Join our Wait List
+                </Button>
+              </motion.div>
+            </motion.div>
+          )}
+          
+          {/* Mobile menu button */}
+          <motion.div variants={itemVariants} className="md:hidden">
             <Button 
-              className="bg-primary hover:bg-primary/90 text-white shadow-sm hover:shadow-glow-small transition-all duration-300"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 0 20px rgba(79, 70, 229, 0.5)"
-              }}
-              whileTap={{ scale: 0.95 }}
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-white hover:bg-white/10"
             >
-              Start Free Trial
+              {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
           </motion.div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
+      
+      {/* Mobile menu */}
       <AnimatePresence>
-        {isMenuOpen && (
+        {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: "auto" }}
-            exit={{ opacity: 0, y: -20, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden absolute top-16 left-0 right-0 bg-white/95 backdrop-blur-md p-6 shadow-lg z-50"
+            className="fixed inset-0 mt-16 bg-background/95 backdrop-blur-lg z-40"
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
-            <motion.div 
-              className="flex flex-col space-y-4"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {["Features", "How It Works", "Use Cases"].map((item, i) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ 
-                    opacity: 1, 
-                    x: 0, 
-                    transition: { delay: i * 0.1, duration: 0.4 } 
-                  }}
-                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-gray-700 hover:text-primary font-medium transition-colors px-4 py-2 rounded-md hover:bg-gray-50"
-                >
-                  {item}
-                </motion.a>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ 
-                  opacity: 1, 
-                  x: 0, 
-                  transition: { delay: 0.3, duration: 0.4 } 
-                }}
-              >
-                <Button variant="ghost" className="justify-start w-full text-left">Sign In</Button>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ 
-                  opacity: 1, 
-                  x: 0, 
-                  transition: { delay: 0.4, duration: 0.4 } 
-                }}
-              >
-                <Button className="w-full">Start Free Trial</Button>
-              </motion.div>
-            </motion.div>
+            <div className="container mx-auto px-6 py-8">
+              <nav className="flex flex-col space-y-6">
+                {navLinks.map((link) => (
+                  <motion.a 
+                    key={link.name}
+                    href={link.url}
+                    className="text-xl text-white border-b border-gray-800 pb-2"
+                    variants={mobileItemVariants}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </motion.a>
+                ))}
+                
+                <motion.div variants={mobileItemVariants} className="pt-4">
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-white mb-4"
+                  >
+                    Join our Wait List
+                  </Button>
+                  
+                  <Button 
+                    variant="outline"
+                    className="w-full text-white border-white/20 hover:bg-white/10"
+                  >
+                    Log in
+                  </Button>
+                </motion.div>
+              </nav>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.header>
   );
 };
 
 export default Navbar;
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.1
-    }
-  }
-};

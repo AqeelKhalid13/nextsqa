@@ -59,7 +59,7 @@ const CallToAction = () => {
             </motion.p>
             
             <motion.div 
-              className="flex flex-col sm:flex-row justify-center gap-4"
+              className="flex justify-center"
               variants={itemVariants}
             >
               <motion.div
@@ -67,15 +67,7 @@ const CallToAction = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-                  Start Free Trial
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
-                  Schedule Demo
+                  Join our Wait List
                 </Button>
               </motion.div>
             </motion.div>
