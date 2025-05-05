@@ -1,12 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import WaitlistForm from './WaitlistForm';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
   const isMobile = useIsMobile();
 
   // Handle scroll effect
@@ -100,123 +103,133 @@ const Navbar = () => {
   ];
 
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-lg bg-background/70 shadow-sm' : ''}`}
-      initial="hidden"
-      animate="visible"
-      variants={navVariants}
-    >
-      <div className="container mx-auto px-6 md:px-10">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <motion.div 
-            variants={itemVariants}
-            className="flex items-center space-x-2"
-            whileHover={{ scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
-            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <span className="text-lg font-bold text-white">N</span>
-            </div>
-            <span className="text-xl font-bold text-white">NextSQA</span>
-          </motion.div>
-          
-          {/* Desktop Navigation */}
-          {!isMobile && (
-            <motion.nav variants={itemVariants} className="hidden md:flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <motion.a 
-                  key={link.name}
-                  href={link.url}
-                  className="text-gray-200 hover:text-white transition-colors"
-                  whileHover={{ y: -2 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  {link.name}
-                </motion.a>
-              ))}
-            </motion.nav>
-          )}
-          
-          {/* Call to action buttons */}
-          {!isMobile && (
-            <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
-              <motion.div>
-                <Button
-                  variant="ghost"
-                  className="text-white hover:bg-white/10"
-                >
-                  Log in
-                </Button>
-              </motion.div>
-              <motion.div>
-                <Button
-                  className="bg-primary hover:bg-primary/90 text-white"
-                >
-                  Join our Wait List
-                </Button>
-              </motion.div>
-            </motion.div>
-          )}
-          
-          {/* Mobile menu button */}
-          <motion.div variants={itemVariants} className="md:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white hover:bg-white/10"
+    <>
+      <motion.header 
+        className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-lg bg-background/70 shadow-sm' : ''}`}
+        initial="hidden"
+        animate="visible"
+        variants={navVariants}
+      >
+        <div className="container mx-auto px-6 md:px-10">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <motion.div 
+              variants={itemVariants}
+              className="flex items-center space-x-2"
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              {mobileMenuOpen ? <X /> : <Menu />}
-            </Button>
-          </motion.div>
-        </div>
-      </div>
-      
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            className="fixed inset-0 mt-16 bg-background/95 backdrop-blur-lg z-40"
-            variants={mobileMenuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <div className="container mx-auto px-6 py-8">
-              <nav className="flex flex-col space-y-6">
+              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                <span className="text-lg font-bold text-white">N</span>
+              </div>
+              <span className="text-xl font-bold text-white">NextSQA</span>
+            </motion.div>
+            
+            {/* Desktop Navigation */}
+            {!isMobile && (
+              <motion.nav variants={itemVariants} className="hidden md:flex items-center space-x-8">
                 {navLinks.map((link) => (
                   <motion.a 
                     key={link.name}
                     href={link.url}
-                    className="text-xl text-white border-b border-gray-800 pb-2"
-                    variants={mobileItemVariants}
-                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-gray-200 hover:text-white transition-colors"
+                    whileHover={{ y: -2 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   >
                     {link.name}
                   </motion.a>
                 ))}
-                
-                <motion.div variants={mobileItemVariants} className="pt-4">
-                  <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-white mb-4"
-                  >
-                    Join our Wait List
-                  </Button>
-                  
-                  <Button 
-                    variant="outline"
-                    className="w-full text-white border-white/20 hover:bg-white/10"
+              </motion.nav>
+            )}
+            
+            {/* Call to action buttons */}
+            {!isMobile && (
+              <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
+                <motion.div>
+                  <Button
+                    variant="ghost"
+                    className="text-white hover:bg-white/10"
                   >
                     Log in
                   </Button>
                 </motion.div>
-              </nav>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+                <motion.div>
+                  <Button
+                    className="bg-primary hover:bg-primary/90 text-white"
+                    onClick={() => setWaitlistOpen(true)}
+                  >
+                    Join our Wait List
+                  </Button>
+                </motion.div>
+              </motion.div>
+            )}
+            
+            {/* Mobile menu button */}
+            <motion.div variants={itemVariants} className="md:hidden">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-white hover:bg-white/10"
+              >
+                {mobileMenuOpen ? <X /> : <Menu />}
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              className="fixed inset-0 mt-16 bg-background/95 backdrop-blur-lg z-40"
+              variants={mobileMenuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <div className="container mx-auto px-6 py-8">
+                <nav className="flex flex-col space-y-6">
+                  {navLinks.map((link) => (
+                    <motion.a 
+                      key={link.name}
+                      href={link.url}
+                      className="text-xl text-white border-b border-gray-800 pb-2"
+                      variants={mobileItemVariants}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.name}
+                    </motion.a>
+                  ))}
+                  
+                  <motion.div variants={mobileItemVariants} className="pt-4">
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-white mb-4"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setWaitlistOpen(true);
+                      }}
+                    >
+                      Join our Wait List
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="w-full text-white border-white/20 hover:bg-white/10"
+                    >
+                      Log in
+                    </Button>
+                  </motion.div>
+                </nav>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+      
+      {/* Waitlist Form Dialog */}
+      <WaitlistForm open={waitlistOpen} onOpenChange={setWaitlistOpen} />
+    </>
   );
 };
 
