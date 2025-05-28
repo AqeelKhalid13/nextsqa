@@ -3,48 +3,43 @@
 @tailwind components;
 @tailwind utilities;
 
-@theme {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
   /* Fonts */
   --font-family-sans: 'Inter', sans-serif;
   --font-family-display: 'Space Grotesk', sans-serif;
   
   /* Colors */
-  --color-background: 222.2 84% 4.9%;
-  --color-foreground: 210 40% 98%;
-  --color-primary: 262 83% 64%;
-  --color-primary-foreground: 210 40% 98%;
-  --color-secondary: 217.2 32.6% 17.5%;
-  --color-secondary-foreground: 210 40% 98%;
-  --color-muted: 217.2 32.6% 17.5%;
-  --color-muted-foreground: 215 20.2% 65.1%;
-  --color-accent: 217.2 32.6% 17.5%;
-  --color-accent-foreground: 210 40% 98%;
-  --color-destructive: 0 62.8% 30.6%;
-  --color-destructive-foreground: 210 40% 98%;
-  --color-border: 217.2 32.6% 17.5%;
-  --color-input: 217.2 32.6% 17.5%;
-  --color-ring: 262 83% 64%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --primary: 262 83% 64%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 262 83% 64%;
   
   /* Border radius */
   --radius: 0.5rem;
-  
-  /* Animations */
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-scan-line: scanLine 2s linear infinite;
-  --animate-progress-bar: progressBar 2.5s ease-in-out infinite;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @layer base {
   * {
-    border-color: hsl(var(--color-border));
+    border-color: hsl(var(--border));
   }
 
   body {
-    background-color: hsl(var(--color-background));
-    color: hsl(var(--color-foreground));
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: var(--font-family-sans);
   }
 
@@ -108,7 +103,7 @@
 
   /* Text gradient */
   .text-gradient-primary {
-    background: linear-gradient(to right, hsl(var(--color-primary)), hsl(var(--color-primary) / 0.9), hsl(var(--color-primary) / 0.7));
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary) / 0.9), hsl(var(--primary) / 0.7));
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -116,18 +111,18 @@
 
   /* Animations */
   .animate-pulse-slow {
-    animation: var(--animate-pulse-slow);
+    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .animate-scan-line {
-    animation: var(--animate-scan-line);
+    animation: scan-line 2s linear infinite;
   }
 
   .animate-progress-bar {
-    animation: var(--animate-progress-bar);
+    animation: progress-bar 2.5s ease-in-out infinite;
   }
 
-  @keyframes pulse {
+  @keyframes pulse-slow {
     0%, 100% {
       opacity: 0.2;
     }
@@ -136,7 +131,7 @@
     }
   }
 
-  @keyframes scanLine {
+  @keyframes scan-line {
     0% {
       top: 0;
       opacity: 0.5;
@@ -150,7 +145,7 @@
     }
   }
 
-  @keyframes progressBar {
+  @keyframes progress-bar {
     0% {
       width: 0%;
     }
