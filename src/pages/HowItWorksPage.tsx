@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Code, TestTube, BarChart3 } from 'lucide-react';
@@ -6,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CallToAction from '@/components/CallToAction';
+import URLInputAnimation from '@/components/animations/URLInputAnimation';
+import AITestingAnimation from '@/components/animations/AITestingAnimation';
+import SmartReportAnimation from '@/components/animations/SmartReportAnimation';
 
 const steps = [
   {
@@ -19,7 +21,7 @@ const steps = [
       "Secure and private - we don't store your data"
     ],
     icon: <Code className="h-8 w-8 text-primary" />,
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+    animation: <URLInputAnimation />
   },
   {
     step: 2,
@@ -32,7 +34,7 @@ const steps = [
       "Support for edge cases and error handling"
     ],
     icon: <TestTube className="h-8 w-8 text-primary" />,
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+    animation: <AITestingAnimation />
   },
   {
     step: 3,
@@ -45,7 +47,7 @@ const steps = [
       "Integration with your development workflow"
     ],
     icon: <BarChart3 className="h-8 w-8 text-primary" />,
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7"
+    animation: <SmartReportAnimation />
   }
 ];
 
@@ -164,16 +166,10 @@ const HowItWorksPage = () => {
                 
                 <motion.div 
                   className={`${index % 2 === 1 ? 'lg:col-start-1' : ''} relative`}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 15 }}
                 >
-                  <div className="neo-blur rounded-xl p-2 border border-white/10">
-                    <img 
-                      src={step.image} 
-                      alt={step.title}
-                      className="w-full h-64 md:h-80 object-cover rounded-lg"
-                    />
-                  </div>
+                  {step.animation}
                 </motion.div>
               </motion.div>
             ))}
