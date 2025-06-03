@@ -1,10 +1,23 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import WaitlistForm from './WaitlistForm';
 
-const CallToAction = () => {
+interface CallToActionProps {
+  onJoinWaitlist?: () => void;
+}
+
+const CallToAction = ({ onJoinWaitlist }: CallToActionProps) => {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
+  
+  const handleJoinWaitlist = () => {
+    if (onJoinWaitlist) {
+      onJoinWaitlist();
+    } else {
+      setWaitlistOpen(true);
+    }
+  };
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -72,7 +85,7 @@ const CallToAction = () => {
                   <Button 
                     size="lg" 
                     className="bg-primary hover:bg-primary/90 text-white"
-                    onClick={() => setWaitlistOpen(true)}
+                    onClick={handleJoinWaitlist}
                   >
                     Join our Wait List
                   </Button>
@@ -162,8 +175,8 @@ const CallToAction = () => {
         </div>
       </section>
       
-      {/* Waitlist Form Dialog */}
-      <WaitlistForm open={waitlistOpen} onOpenChange={setWaitlistOpen} />
+      {/* Waitlist Form Dialog - only show if not using external handler */}
+      {!onJoinWaitlist && <WaitlistForm open={waitlistOpen} onOpenChange={setWaitlistOpen} />}
     </>
   );
 };
