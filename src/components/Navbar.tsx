@@ -165,12 +165,14 @@ const Navbar = () => {
             {!isMobile && (
               <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
                 <motion.div>
-                  <Button
-                    variant="ghost"
-                    className="text-white hover:bg-white/10"
-                  >
-                    Log in
-                  </Button>
+                  <Link to="/login">
+                    <Button
+                      variant="ghost"
+                      className="text-white hover:bg-white/10"
+                    >
+                      Log in
+                    </Button>
+                  </Link>
                 </motion.div>
                 <motion.div>
                   <Button
@@ -242,12 +244,15 @@ const Navbar = () => {
                       Join our Wait List
                     </Button>
                     
-                    <Button 
-                      variant="outline"
-                      className="w-full text-white border-white/20 hover:bg-white/10"
-                    >
-                      Log in
-                    </Button>
+                    <Link to="/login">
+                      <Button 
+                        variant="outline"
+                        className="w-full text-white border-white/20 hover:bg-white/10"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Log in
+                      </Button>
+                    </Link>
                   </motion.div>
                 </nav>
               </div>
