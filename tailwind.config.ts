@@ -146,6 +146,22 @@ export default {
 						transform: 'translateX(0)'
 					}
 				},
+				'shimmer': {
+					'0%': {
+						backgroundPosition: '-200% 0'
+					},
+					'100%': {
+						backgroundPosition: '200% 0'
+					}
+				},
+				'bounce-subtle': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-5px)'
+					}
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -157,8 +173,35 @@ export default {
 				'scale-in': 'scale-in 0.5s ease-out',
 				'slide-up': 'slide-up 0.5s ease-out',
 				'slide-right': 'slide-right 0.5s ease-out',
-			}
+				'shimmer': 'shimmer 2s linear infinite',
+				'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
+			},
+			typography: {
+				invert: {
+					css: {
+						'--tw-prose-body': 'hsl(var(--foreground))',
+						'--tw-prose-headings': 'hsl(var(--foreground))',
+						'--tw-prose-lead': 'hsl(var(--muted-foreground))',
+						'--tw-prose-links': 'hsl(var(--primary))',
+						'--tw-prose-bold': 'hsl(var(--foreground))',
+						'--tw-prose-counters': 'hsl(var(--muted-foreground))',
+						'--tw-prose-bullets': 'hsl(var(--muted-foreground))',
+						'--tw-prose-hr': 'hsl(var(--border))',
+						'--tw-prose-quotes': 'hsl(var(--foreground))',
+						'--tw-prose-quote-borders': 'hsl(var(--border))',
+						'--tw-prose-captions': 'hsl(var(--muted-foreground))',
+						'--tw-prose-code': 'hsl(var(--foreground))',
+						'--tw-prose-pre-code': 'hsl(var(--muted-foreground))',
+						'--tw-prose-pre-bg': 'hsl(var(--muted))',
+						'--tw-prose-th-borders': 'hsl(var(--border))',
+						'--tw-prose-td-borders': 'hsl(var(--border))',
+					},
+				},
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require("@tailwindcss/typography"),
+	],
 } satisfies Config;
