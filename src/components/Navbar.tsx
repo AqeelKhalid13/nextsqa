@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Link } from 'react-router-dom';
 import WaitlistForm from './WaitlistForm';
 
 const Navbar = () => {
@@ -95,10 +96,10 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "How it works", url: "#how-it-works" },
-    { name: "Features", url: "#features" },
-    { name: "Use Cases", url: "#use-cases" },
-    { name: "FAQs", url: "#faqs" },
+    { name: "How it works", url: "/how-it-works" },
+    { name: "Features", url: "/features" },
+    { name: "Use Cases", url: "/use-cases" },
+    { name: "Blogs", url: "/blogs" },
     { name: "Pricing", url: "#pricing" }
   ];
 
@@ -119,25 +120,43 @@ const Navbar = () => {
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-lg font-bold text-white">N</span>
-              </div>
-              <span className="text-xl font-bold text-white">NextSQA</span>
+              <Link to="/" className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                  <span className="text-lg font-bold text-white">N</span>
+                </div>
+                <span className="text-xl font-bold text-white">NextSQA</span>
+              </Link>
             </motion.div>
             
             {/* Desktop Navigation */}
             {!isMobile && (
               <motion.nav variants={itemVariants} className="hidden md:flex items-center space-x-8">
                 {navLinks.map((link) => (
-                  <motion.a 
-                    key={link.name}
-                    href={link.url}
-                    className="text-gray-200 hover:text-white transition-colors"
-                    whileHover={{ y: -2 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    {link.name}
-                  </motion.a>
+                  <motion.div key={link.name}>
+                    {link.url.startsWith('#') ? (
+                      <motion.a 
+                        href={link.url}
+                        className="text-gray-200 hover:text-white transition-colors"
+                        whileHover={{ y: -2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                      >
+                        {link.name}
+                      </motion.a>
+                    ) : (
+                      <Link 
+                        to={link.url}
+                        className="text-gray-200 hover:text-white transition-colors"
+                      >
+                        <motion.span
+                          whileHover={{ y: -2 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          className="block"
+                        >
+                          {link.name}
+                        </motion.span>
+                      </Link>
+                    )}
+                  </motion.div>
                 ))}
               </motion.nav>
             )}
@@ -191,15 +210,25 @@ const Navbar = () => {
               <div className="container mx-auto px-6 py-8">
                 <nav className="flex flex-col space-y-6">
                   {navLinks.map((link) => (
-                    <motion.a 
-                      key={link.name}
-                      href={link.url}
-                      className="text-xl text-white border-b border-gray-800 pb-2"
-                      variants={mobileItemVariants}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {link.name}
-                    </motion.a>
+                    <motion.div key={link.name} variants={mobileItemVariants}>
+                      {link.url.startsWith('#') ? (
+                        <a 
+                          href={link.url}
+                          className="text-xl text-white border-b border-gray-800 pb-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link 
+                          to={link.url}
+                          className="text-xl text-white border-b border-gray-800 pb-2"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {link.name}
+                        </Link>
+                      )}
+                    </motion.div>
                   ))}
                   
                   <motion.div variants={mobileItemVariants} className="pt-4">
