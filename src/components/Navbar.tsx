@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link } from 'react-router-dom';
 import WaitlistForm from './WaitlistForm';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -124,7 +125,7 @@ const Navbar = () => {
                 <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
                   <span className="text-lg font-bold text-white">N</span>
                 </div>
-                <span className="text-xl font-bold text-white">NextSQA</span>
+                <span className="text-xl font-bold text-foreground">NextSQA</span>
               </Link>
             </motion.div>
             
@@ -136,7 +137,7 @@ const Navbar = () => {
                     {link.url.startsWith('#') ? (
                       <motion.a 
                         href={link.url}
-                        className="text-gray-200 hover:text-white transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
                         whileHover={{ y: -2 }}
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       >
@@ -145,7 +146,7 @@ const Navbar = () => {
                     ) : (
                       <Link 
                         to={link.url}
-                        className="text-gray-200 hover:text-white transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <motion.span
                           whileHover={{ y: -2 }}
@@ -164,11 +165,12 @@ const Navbar = () => {
             {/* Call to action buttons */}
             {!isMobile && (
               <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
+                <ThemeToggle />
                 <motion.div>
                   <Link to="/login">
                     <Button
                       variant="ghost"
-                      className="text-white hover:bg-white/10"
+                      className="text-foreground hover:bg-accent"
                     >
                       Log in
                     </Button>
@@ -176,7 +178,7 @@ const Navbar = () => {
                 </motion.div>
                 <motion.div>
                   <Button
-                    className="bg-primary hover:bg-primary/90 text-white"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
                     onClick={() => setWaitlistOpen(true)}
                   >
                     Join our Wait List
@@ -186,12 +188,13 @@ const Navbar = () => {
             )}
             
             {/* Mobile menu button */}
-            <motion.div variants={itemVariants} className="md:hidden">
+            <motion.div variants={itemVariants} className="md:hidden flex items-center space-x-2">
+              <ThemeToggle />
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-white hover:bg-white/10"
+                className="text-foreground hover:bg-accent"
               >
                 {mobileMenuOpen ? <X /> : <Menu />}
               </Button>
@@ -216,7 +219,7 @@ const Navbar = () => {
                       {link.url.startsWith('#') ? (
                         <a 
                           href={link.url}
-                          className="text-xl text-white border-b border-gray-800 pb-2"
+                          className="text-xl text-foreground border-b border-border pb-2"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           {link.name}
@@ -224,7 +227,7 @@ const Navbar = () => {
                       ) : (
                         <Link 
                           to={link.url}
-                          className="text-xl text-white border-b border-gray-800 pb-2"
+                          className="text-xl text-foreground border-b border-border pb-2"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           {link.name}
@@ -235,7 +238,7 @@ const Navbar = () => {
                   
                   <motion.div variants={mobileItemVariants} className="pt-4">
                     <Button 
-                      className="w-full bg-primary hover:bg-primary/90 text-white mb-4"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mb-4"
                       onClick={() => {
                         setMobileMenuOpen(false);
                         setWaitlistOpen(true);
@@ -247,7 +250,7 @@ const Navbar = () => {
                     <Link to="/login">
                       <Button 
                         variant="outline"
-                        className="w-full text-white border-white/20 hover:bg-white/10"
+                        className="w-full text-foreground border-border hover:bg-accent"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Log in
