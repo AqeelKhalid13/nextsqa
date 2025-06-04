@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/components/ThemeProvider';
 
 const steps = [
   {
@@ -33,6 +34,9 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -56,14 +60,16 @@ const HowItWorks = () => {
   };
 
   return (
-    <section id="how-it-works" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
+    <section id="how-it-works" className={`py-20 md:py-32 relative overflow-hidden ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2 }}
+        animate={{ opacity: isLight ? 0.1 : 0.2 }}
         transition={{ duration: 1.5 }}
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
+          background: isLight 
+            ? "radial-gradient(circle at 20% 30%, rgba(82, 54, 255, 0.08) 0%, transparent 70%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.05) 0%, transparent 70%)"
+            : "radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
         }}
       />
 
@@ -83,7 +89,7 @@ const HowItWorks = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-3xl md:text-5xl font-bold mb-6 text-white"
+            className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}
           >
             How It Works
           </motion.h2>
@@ -92,7 +98,7 @@ const HowItWorks = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-lg text-gray-300 max-w-2xl mx-auto"
+            className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-300'}`}
           >
             NextSQA makes website testing simple with just three easy steps. No complex setup required.
           </motion.p>
@@ -112,10 +118,14 @@ const HowItWorks = () => {
               whileHover={{ 
                 y: -10, 
                 scale: 1.03, 
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                borderColor: "rgba(255, 255, 255, 0.2)" 
+                boxShadow: isLight 
+                  ? "0 10px 20px -5px rgba(0, 0, 0, 0.1)"
+                  : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                borderColor: isLight ? "rgba(156, 163, 175, 0.4)" : "rgba(255, 255, 255, 0.2)" 
               }}
-              className="neo-blur p-8 rounded-xl border border-white/10 flex flex-col items-center text-center transition-all duration-300"
+              className={`neo-blur p-8 rounded-xl border flex flex-col items-center text-center transition-all duration-300 ${
+                isLight ? 'border-gray-300' : 'border-white/10'
+              }`}
             >
               <motion.div 
                 whileHover={{ 
@@ -135,14 +145,14 @@ const HowItWorks = () => {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                  className="absolute inset-0 bg-primary/5 rounded-full"
+                  className={`absolute inset-0 rounded-full ${isLight ? 'bg-primary/3' : 'bg-primary/5'}`}
                 />
                 {step.icon}
               </motion.div>
-              <h3 className="text-2xl font-bold mb-3 text-white">
+              <h3 className={`text-2xl font-bold mb-3 ${isLight ? 'text-gray-900' : 'text-white'}`}>
                 {step.title}
               </h3>
-              <p className="text-gray-300">
+              <p className={isLight ? 'text-gray-600' : 'text-gray-300'}>
                 {step.description}
               </p>
             </motion.div>

@@ -13,50 +13,50 @@
   
   /* Light mode colors (default) */
   --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 254 100% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 210 40% 98%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 254 100% 60%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  
-  /* Border radius */
-  --radius: 0.5rem;
-}
-
-.light {
-  /* Light mode colors - Pure white backgrounds */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --foreground: 0 0% 9%;
   --primary: 254 100% 60%;
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 98%;
-  --secondary-foreground: 222.2 84% 4.9%;
+  --secondary-foreground: 0 0% 9%;
   --muted: 0 0% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted-foreground: 0 0% 25%;
   --accent: 0 0% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
+  --accent-foreground: 0 0% 9%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 100%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
   --ring: 254 100% 60%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 0 0% 9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover-foreground: 0 0% 9%;
+  
+  /* Border radius */
+  --radius: 0.5rem;
+}
+
+.light {
+  /* Light mode colors - Pure white backgrounds with dark text */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --primary: 254 100% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 98%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 25%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 254 100% 60%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 9%;
 }
 
 .dark {
@@ -122,7 +122,7 @@
   }
 
   .light .glass-card {
-    @apply backdrop-blur-lg bg-white/90 border border-gray-200;
+    @apply backdrop-blur-lg bg-white/95 border border-gray-300 shadow-sm;
   }
 
   .neo-blur {
@@ -130,16 +130,24 @@
   }
 
   .light .neo-blur {
-    @apply backdrop-blur-xl bg-white/90 border border-gray-200 shadow-lg;
+    @apply backdrop-blur-xl bg-white/95 border border-gray-300 shadow-sm;
   }
 
-  /* Enhanced shadow effects */
+  /* Enhanced shadow effects - Light and smooth */
   .shadow-glow {
     box-shadow: 0 0 25px rgba(82, 54, 255, 0.5);
   }
 
+  .light .shadow-glow {
+    box-shadow: 0 0 15px rgba(82, 54, 255, 0.2);
+  }
+
   .shadow-glow-small {
     box-shadow: 0 0 15px rgba(82, 54, 255, 0.4);
+  }
+
+  .light .shadow-glow-small {
+    box-shadow: 0 0 8px rgba(82, 54, 255, 0.15);
   }
 
   .shadow-glow-subtle {
@@ -157,14 +165,14 @@
 
   .light .shadow-glow-subtle {
     box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.08), 
-      0 0 10px rgba(82, 54, 255, 0.1);
+      0 2px 8px rgba(0, 0, 0, 0.06), 
+      0 0 5px rgba(82, 54, 255, 0.08);
   }
 
   .light .shadow-glow-subtle:hover {
     box-shadow: 
-      0 10px 30px rgba(0, 0, 0, 0.12), 
-      0 0 15px rgba(82, 54, 255, 0.15);
+      0 4px 12px rgba(0, 0, 0, 0.08), 
+      0 0 8px rgba(82, 54, 255, 0.12);
   }
 
   .shadow-neumorphic {
@@ -182,14 +190,14 @@
 
   .light .shadow-neumorphic {
     box-shadow: 
-      8px 8px 16px rgba(200, 200, 200, 0.3),
-      -8px -8px 16px rgba(255, 255, 255, 0.9);
+      4px 4px 8px rgba(200, 200, 200, 0.15),
+      -4px -4px 8px rgba(255, 255, 255, 0.9);
   }
 
   .light .shadow-neumorphic:hover {
     box-shadow: 
-      12px 12px 24px rgba(200, 200, 200, 0.4),
-      -12px -12px 24px rgba(255, 255, 255, 1);
+      6px 6px 12px rgba(200, 200, 200, 0.2),
+      -6px -6px 12px rgba(255, 255, 255, 1);
   }
 }
 
