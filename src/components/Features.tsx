@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
+import { useTheme } from '@/components/ThemeProvider';
 
 const features = [
   {
@@ -61,6 +62,9 @@ const features = [
 ];
 
 const FeatureCard = ({ feature, index }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -73,7 +77,7 @@ const FeatureCard = ({ feature, index }) => {
         transition: { type: "spring", stiffness: 300, damping: 15 }
       }}
     >
-      <Card className="h-full neo-blur border border-white/10 transition-all duration-300">
+      <Card className={`h-full neo-blur transition-all duration-300 ${isLight ? 'border-gray-200 hover:border-primary/20' : 'border-white/10 hover:border-white/20'}`}>
         <CardContent className="p-6">
           <motion.div 
             className="bg-primary/10 p-3 w-fit rounded-lg mb-4"
@@ -85,10 +89,10 @@ const FeatureCard = ({ feature, index }) => {
           >
             {feature.icon}
           </motion.div>
-          <h3 className="text-xl font-bold mb-2 text-white">
+          <h3 className={`text-xl font-bold mb-2 ${isLight ? 'text-foreground hover:text-primary' : 'text-white hover:text-primary'} transition-colors`}>
             {feature.title}
           </h3>
-          <p className="text-gray-400">
+          <p className={isLight ? 'text-muted-foreground' : 'text-gray-400'}>
             {feature.description}
           </p>
         </CardContent>
@@ -98,8 +102,11 @@ const FeatureCard = ({ feature, index }) => {
 };
 
 const Features = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   return (
-    <section id="features" className="py-20 md:py-32 relative overflow-hidden bg-secondary/30">
+    <section id="features" className={`py-20 md:py-32 relative overflow-hidden ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
       {/* Background elements */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -117,7 +124,7 @@ const Features = () => {
             ease: "linear", 
             repeat: Infinity 
           }}
-          className="absolute top-20 right-20 w-72 h-72 rounded-full bg-primary/30 filter blur-3xl"
+          className={`absolute top-20 right-20 w-72 h-72 rounded-full filter blur-3xl ${isLight ? 'bg-primary/20' : 'bg-primary/30'}`}
         />
         <motion.div 
           animate={{ 
@@ -129,7 +136,7 @@ const Features = () => {
             ease: "linear", 
             repeat: Infinity 
           }}
-          className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-primary/20 filter blur-3xl"
+          className={`absolute bottom-20 left-20 w-72 h-72 rounded-full filter blur-3xl ${isLight ? 'bg-primary/15' : 'bg-primary/20'}`}
         />
       </motion.div>
 
@@ -142,8 +149,8 @@ const Features = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">Powerful Toolset</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Key Features</h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-foreground' : 'text-white'}`}>Key Features</h2>
+          <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-muted-foreground' : 'text-gray-400'}`}>
             NextSQA delivers everything you need to automate and improve your website testing process.
           </p>
         </motion.div>
@@ -156,19 +163,21 @@ const Features = () => {
 
         {/* Feature screenshot or diagram */}
         <motion.div 
-          className="mt-20 neo-blur rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden border border-white/10"
+          className={`mt-20 neo-blur rounded-2xl p-8 md:p-12 max-w-5xl mx-auto shadow-neumorphic overflow-hidden ${isLight ? 'border-gray-200' : 'border-white/10'}`}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
           whileHover={{
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)",
-            borderColor: "rgba(255, 255, 255, 0.2)",
+            boxShadow: isLight 
+              ? "0 25px 50px -12px rgba(0, 0, 0, 0.2)"
+              : "0 25px 50px -12px rgba(0, 0, 0, 0.35)",
+            borderColor: isLight ? "rgba(82, 54, 255, 0.2)" : "rgba(255, 255, 255, 0.2)",
             transition: { duration: 0.5 }
           }}
         >
           <motion.h3 
-            className="text-2xl font-bold mb-6 text-center text-white"
+            className={`text-2xl font-bold mb-6 text-center ${isLight ? 'text-foreground' : 'text-white'}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -177,11 +186,11 @@ const Features = () => {
             Comprehensive Bug Reports
           </motion.h3>
           
-          <div className="neo-blur rounded-xl overflow-hidden border border-gray-800">
+          <div className={`neo-blur rounded-xl overflow-hidden ${isLight ? 'border-gray-300' : 'border-gray-800'}`}>
             <motion.div 
-              className="bg-gray-900 p-4 border-b border-gray-800"
+              className={`p-4 border-b ${isLight ? 'bg-gray-100 border-gray-300' : 'bg-gray-900 border-gray-800'}`}
               whileHover={{
-                backgroundColor: "rgba(17, 24, 39, 0.8)",
+                backgroundColor: isLight ? "rgba(243, 244, 246, 0.8)" : "rgba(17, 24, 39, 0.8)",
                 transition: { duration: 0.3 }
               }}
             >
@@ -189,24 +198,24 @@ const Features = () => {
                 <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                <div className="mx-auto text-sm font-medium text-gray-400">NextSQA Testing Report</div>
+                <div className={`mx-auto text-sm font-medium ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>NextSQA Testing Report</div>
               </div>
             </motion.div>
             <div className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 <motion.div 
-                  className="md:w-1/2 bg-gray-900/70 rounded-lg p-4 border border-gray-800"
+                  className={`md:w-1/2 rounded-lg p-4 border ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-gray-900/70 border-gray-800'}`}
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.3 }}
                   whileHover={{
                     scale: 1.03,
-                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)",
                     transition: { type: "spring", stiffness: 400, damping: 10 }
                   }}
                 >
-                  <div className="text-lg font-bold mb-3 text-white">Test Results</div>
+                  <div className={`text-lg font-bold mb-3 ${isLight ? 'text-foreground' : 'text-white'}`}>Test Results</div>
                   <div className="space-y-3">
                     <motion.div 
                       className="flex items-center"
@@ -253,25 +262,25 @@ const Features = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.4 }}
                 >
-                  <div className="text-lg font-bold mb-3 text-white">Bug Details</div>
+                  <div className={`text-lg font-bold mb-3 ${isLight ? 'text-foreground' : 'text-white'}`}>Bug Details</div>
                   <motion.div 
-                    className="bg-red-950/30 p-4 rounded-lg border border-red-900/50"
+                    className={`p-4 rounded-lg border ${isLight ? 'bg-red-50 border-red-200' : 'bg-red-950/30 border-red-900/50'}`}
                     whileHover={{
                       scale: 1.03,
-                      borderColor: "rgba(248, 113, 113, 0.4)",
+                      borderColor: isLight ? "rgba(239, 68, 68, 0.4)" : "rgba(248, 113, 113, 0.4)",
                       transition: { type: "spring", stiffness: 400, damping: 10 }
                     }}
                   >
-                    <div className="text-red-400 font-medium mb-2">Login Form Validation Issue</div>
-                    <p className="text-sm text-gray-300 mb-2">
+                    <div className={`font-medium mb-2 ${isLight ? 'text-red-700' : 'text-red-400'}`}>Login Form Validation Issue</div>
+                    <p className={`text-sm mb-2 ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>
                       The login form accepts submissions with an empty email field.
                     </p>
-                    <div className="text-sm font-medium text-gray-300 mt-4 mb-1">Recommendation:</div>
+                    <div className={`text-sm font-medium mt-4 mb-1 ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>Recommendation:</div>
                     <motion.div 
-                      className="bg-gray-900/80 p-3 rounded border border-gray-800 text-sm font-mono text-gray-300"
+                      className={`p-3 rounded border text-sm font-mono ${isLight ? 'bg-gray-100 border-gray-300 text-gray-800' : 'bg-gray-900/80 border-gray-800 text-gray-300'}`}
                       whileHover={{
-                        backgroundColor: "rgba(17, 24, 39, 0.9)",
-                        borderColor: "rgba(255, 255, 255, 0.15)",
+                        backgroundColor: isLight ? "rgba(249, 250, 251, 0.9)" : "rgba(17, 24, 39, 0.9)",
+                        borderColor: isLight ? "rgba(156, 163, 175, 0.5)" : "rgba(255, 255, 255, 0.15)",
                       }}
                     >
                       Add required attribute to email input<br />

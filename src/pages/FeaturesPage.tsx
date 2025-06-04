@@ -5,6 +5,7 @@ import { Brain, Zap, Shield, Globe, BarChart3, Clock, Code, TestTube, Monitor, S
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CallToAction from '@/components/CallToAction';
+import { useTheme } from '@/components/ThemeProvider';
 
 const features = [
   {
@@ -82,6 +83,9 @@ const features = [
 ];
 
 const FeaturesPage = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -112,11 +116,13 @@ const FeaturesPage = () => {
       <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
+          animate={{ opacity: isLight ? 0.1 : 0.2 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
+            background: isLight 
+              ? "radial-gradient(circle at 30% 40%, rgba(82, 54, 255, 0.08) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 70%)"
+              : "radial-gradient(circle at 30% 40%, rgba(82, 54, 255, 0.15) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
           }}
         />
         
@@ -127,10 +133,10 @@ const FeaturesPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className={`text-4xl md:text-6xl font-bold mb-6 ${isLight ? 'text-foreground' : 'text-white'}`}>
               Powerful <span className="text-gradient-primary">Features</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className={`text-xl mb-8 max-w-2xl mx-auto ${isLight ? 'text-muted-foreground' : 'text-gray-300'}`}>
               Discover all the capabilities that make NextSQA the most comprehensive 
               AI-powered testing platform for modern web applications.
             </p>
@@ -152,11 +158,12 @@ const FeaturesPage = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="neo-blur p-8 rounded-xl border border-white/10 group"
+                className={`neo-blur p-8 rounded-xl group ${isLight ? 'border-gray-200 hover:border-primary/20' : 'border-white/10 hover:border-white/20'}`}
                 whileHover={{ 
                   y: -10, 
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  borderColor: "rgba(255, 255, 255, 0.2)"
+                  boxShadow: isLight 
+                    ? "0 25px 50px -12px rgba(0, 0, 0, 0.15)"
+                    : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
                 }}
               >
                 <motion.div 
@@ -170,11 +177,11 @@ const FeaturesPage = () => {
                   {feature.icon}
                 </motion.div>
                 
-                <h3 className="text-xl font-bold mb-4 text-white group-hover:text-primary transition-colors">
+                <h3 className={`text-xl font-bold mb-4 group-hover:text-primary transition-colors ${isLight ? 'text-foreground' : 'text-white'}`}>
                   {feature.title}
                 </h3>
                 
-                <p className="text-gray-300 mb-6">
+                <p className={`mb-6 ${isLight ? 'text-muted-foreground' : 'text-gray-300'}`}>
                   {feature.description}
                 </p>
                 
@@ -182,8 +189,8 @@ const FeaturesPage = () => {
                   {feature.benefits.map((benefit, i) => (
                     <motion.li 
                       key={i}
-                      className="flex items-center gap-2 text-sm text-gray-400"
-                      whileHover={{ x: 5, color: "#ffffff" }}
+                      className={`flex items-center gap-2 text-sm ${isLight ? 'text-muted-foreground hover:text-foreground' : 'text-gray-400 hover:text-white'}`}
+                      whileHover={{ x: 5 }}
                       transition={{ type: "spring", stiffness: 300, damping: 15 }}
                     >
                       <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
@@ -198,7 +205,7 @@ const FeaturesPage = () => {
       </section>
 
       {/* Feature Highlights */}
-      <section className="py-20 bg-secondary/30">
+      <section className={`py-20 ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
         <div className="container mx-auto px-6 md:px-10">
           <motion.div 
             className="text-center mb-16"
@@ -207,10 +214,10 @@ const FeaturesPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-foreground' : 'text-white'}`}>
               Why Choose NextSQA?
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-muted-foreground' : 'text-gray-400'}`}>
               Built for modern development teams who demand speed, accuracy, and reliability.
             </p>
           </motion.div>
@@ -228,8 +235,8 @@ const FeaturesPage = () => {
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-4xl font-bold text-primary mb-2">10x</div>
-              <div className="text-lg font-semibold text-white mb-2">Faster Testing</div>
-              <div className="text-gray-400">Reduce testing time from hours to minutes</div>
+              <div className={`text-lg font-semibold mb-2 ${isLight ? 'text-foreground' : 'text-white'}`}>Faster Testing</div>
+              <div className={isLight ? 'text-muted-foreground' : 'text-gray-400'}>Reduce testing time from hours to minutes</div>
             </motion.div>
             
             <motion.div
@@ -238,8 +245,8 @@ const FeaturesPage = () => {
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-4xl font-bold text-primary mb-2">99%</div>
-              <div className="text-lg font-semibold text-white mb-2">Accuracy Rate</div>
-              <div className="text-gray-400">Industry-leading bug detection accuracy</div>
+              <div className={`text-lg font-semibold mb-2 ${isLight ? 'text-foreground' : 'text-white'}`}>Accuracy Rate</div>
+              <div className={isLight ? 'text-muted-foreground' : 'text-gray-400'}>Industry-leading bug detection accuracy</div>
             </motion.div>
             
             <motion.div
@@ -248,8 +255,8 @@ const FeaturesPage = () => {
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-lg font-semibold text-white mb-2">Monitoring</div>
-              <div className="text-gray-400">Continuous testing and monitoring</div>
+              <div className={`text-lg font-semibold mb-2 ${isLight ? 'text-foreground' : 'text-white'}`}>Monitoring</div>
+              <div className={isLight ? 'text-muted-foreground' : 'text-gray-400'}>Continuous testing and monitoring</div>
             </motion.div>
           </motion.div>
         </div>

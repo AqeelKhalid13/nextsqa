@@ -14,9 +14,9 @@
   /* Light mode colors (default) */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
-  --primary: 248 100% 60%;
+  --primary: 254 100% 60%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 210 40% 96%;
+  --secondary: 210 40% 98%;
   --secondary-foreground: 222.2 84% 4.9%;
   --muted: 210 40% 96%;
   --muted-foreground: 215.4 16.3% 46.9%;
@@ -26,7 +26,7 @@
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 248 100% 60%;
+  --ring: 254 100% 60%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
@@ -40,9 +40,9 @@
   /* Light mode colors - Pure white backgrounds */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
-  --primary: 248 100% 60%;
+  --primary: 254 100% 60%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96%;
+  --secondary: 0 0% 98%;
   --secondary-foreground: 222.2 84% 4.9%;
   --muted: 0 0% 96%;
   --muted-foreground: 215.4 16.3% 46.9%;
@@ -52,7 +52,7 @@
   --destructive-foreground: 0 0% 100%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 248 100% 60%;
+  --ring: 254 100% 60%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
@@ -63,7 +63,7 @@
   /* Dark mode colors */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
-  --primary: 248 100% 60%;
+  --primary: 254 100% 60%;
   --primary-foreground: 0 0% 100%;
   --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
@@ -75,7 +75,7 @@
   --destructive-foreground: 210 40% 98%;
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
-  --ring: 248 100% 60%;
+  --ring: 254 100% 60%;
   --card: 222.2 84% 4.9%;
   --card-foreground: 210 40% 98%;
   --popover: 222.2 84% 4.9%;
@@ -107,35 +107,64 @@
     @apply bg-gradient-to-b from-slate-50 to-blue-50;
   }
 
+  /* Light mode specific gradients and backgrounds */
+  .light .hero-gradient {
+    @apply bg-gradient-to-br from-white via-gray-50 to-white;
+  }
+
+  .light .feature-gradient {
+    @apply bg-gradient-to-b from-gray-50 to-blue-50;
+  }
+
   /* Glassmorphism effects */
   .glass-card {
     @apply backdrop-blur-lg bg-white/10 border border-white/20;
+  }
+
+  .light .glass-card {
+    @apply backdrop-blur-lg bg-white/90 border border-gray-200;
   }
 
   .neo-blur {
     @apply backdrop-blur-2xl bg-black/40 border border-white/10;
   }
 
+  .light .neo-blur {
+    @apply backdrop-blur-xl bg-white/90 border border-gray-200 shadow-lg;
+  }
+
   /* Enhanced shadow effects */
   .shadow-glow {
-    box-shadow: 0 0 25px rgba(155, 135, 245, 0.5);
+    box-shadow: 0 0 25px rgba(82, 54, 255, 0.5);
   }
 
   .shadow-glow-small {
-    box-shadow: 0 0 15px rgba(155, 135, 245, 0.4);
+    box-shadow: 0 0 15px rgba(82, 54, 255, 0.4);
   }
 
   .shadow-glow-subtle {
     box-shadow: 
       0 4px 20px rgba(0, 0, 0, 0.1), 
-      0 0 10px rgba(155, 135, 245, 0.1);
+      0 0 10px rgba(82, 54, 255, 0.1);
     @apply transition-all duration-300;
   }
 
   .shadow-glow-subtle:hover {
     box-shadow: 
       0 10px 30px rgba(0, 0, 0, 0.15), 
-      0 0 15px rgba(155, 135, 245, 0.2);
+      0 0 15px rgba(82, 54, 255, 0.2);
+  }
+
+  .light .shadow-glow-subtle {
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.08), 
+      0 0 10px rgba(82, 54, 255, 0.1);
+  }
+
+  .light .shadow-glow-subtle:hover {
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.12), 
+      0 0 15px rgba(82, 54, 255, 0.15);
   }
 
   .shadow-neumorphic {
@@ -149,6 +178,18 @@
     box-shadow: 
       12px 12px 24px rgba(200, 200, 200, 0.3),
       -12px -12px 24px rgba(255, 255, 255, 0.8);
+  }
+
+  .light .shadow-neumorphic {
+    box-shadow: 
+      8px 8px 16px rgba(200, 200, 200, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.9);
+  }
+
+  .light .shadow-neumorphic:hover {
+    box-shadow: 
+      12px 12px 24px rgba(200, 200, 200, 0.4),
+      -12px -12px 24px rgba(255, 255, 255, 1);
   }
 }
 

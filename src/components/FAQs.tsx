@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { motion } from 'framer-motion';
+import { useTheme } from '@/components/ThemeProvider';
 
 const faqs = [
   {
@@ -32,8 +33,11 @@ const faqs = [
 ];
 
 const FAQs = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   return (
-    <section className="py-20 md:py-32 bg-secondary/30">
+    <section className={`py-20 md:py-32 ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
       <div className="container mx-auto px-6 md:px-10">
         <motion.div 
           className="text-center mb-16"
@@ -43,8 +47,8 @@ const FAQs = () => {
           transition={{ duration: 0.5 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">FAQ</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Frequently Asked Questions</h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-foreground' : 'text-white'}`}>Frequently Asked Questions</h2>
+          <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-muted-foreground' : 'text-gray-300'}`}>
             Everything you need to know about BlackBox AI and how it can transform your testing process.
           </p>
         </motion.div>
@@ -61,12 +65,12 @@ const FAQs = () => {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="neo-blur border border-white/10 rounded-lg px-6 overflow-hidden"
+                className={`neo-blur rounded-lg px-6 overflow-hidden ${isLight ? 'border-gray-200' : 'border-white/10'}`}
               >
-                <AccordionTrigger className="text-left text-lg font-medium py-4 hover:text-primary transition-colors">
+                <AccordionTrigger className={`text-left text-lg font-medium py-4 transition-colors ${isLight ? 'text-foreground hover:text-primary' : 'text-white hover:text-primary'}`}>
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-300 pb-4">
+                <AccordionContent className={`pb-4 ${isLight ? 'text-muted-foreground' : 'text-gray-300'}`}>
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
