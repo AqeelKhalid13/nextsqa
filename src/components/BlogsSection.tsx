@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
+import { useTheme } from '@/components/ThemeProvider';
 
 const blogs = [
   {
@@ -39,6 +40,9 @@ const blogs = [
 ];
 
 const BlogsSection = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -62,7 +66,7 @@ const BlogsSection = () => {
   };
 
   return (
-    <section className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
+    <section className={`py-20 md:py-32 ${isLight ? 'bg-white' : 'bg-secondary/30'} relative overflow-hidden`}>
       {/* Background effects */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -106,8 +110,8 @@ const BlogsSection = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">Latest Insights</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">From Our Blog</h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>From Our Blog</h2>
+          <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
             Stay updated with the latest trends, tips, and insights in AI-powered testing.
           </p>
         </motion.div>
@@ -122,12 +126,14 @@ const BlogsSection = () => {
           {blogs.map((blog) => (
             <motion.article 
               key={blog.id}
-              className="neo-blur rounded-xl border border-gray-800 overflow-hidden group hover:shadow-glow-subtle transition-all duration-300"
+              className={`neo-blur rounded-xl border ${isLight ? 'border-gray-200' : 'border-gray-800'} overflow-hidden group hover:shadow-glow-subtle transition-all duration-300`}
               variants={itemVariants}
               whileHover={{ 
                 y: -10, 
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
-                borderColor: "rgba(255, 255, 255, 0.15)"
+                boxShadow: isLight 
+                  ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                  : "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
+                borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.15)"
               }}
             >
               <div className="relative overflow-hidden">
@@ -144,7 +150,7 @@ const BlogsSection = () => {
               </div>
               
               <div className="p-6">
-                <div className="flex items-center gap-4 text-gray-400 text-sm mb-3">
+                <div className={`flex items-center gap-4 text-sm mb-3 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
                   <div className="flex items-center gap-1">
                     <Calendar size={14} />
                     <span>{new Date(blog.date).toLocaleDateString()}</span>
@@ -155,16 +161,16 @@ const BlogsSection = () => {
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">
+                <h3 className={`text-xl font-bold mb-3 line-clamp-2 ${isLight ? 'text-gray-900' : 'text-white'}`}>
                   {blog.title}
                 </h3>
                 
-                <p className="text-gray-400 mb-4 line-clamp-3">
+                <p className={`mb-4 line-clamp-3 ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
                   {blog.excerpt}
                 </p>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-400 text-sm">By {blog.author}</span>
+                  <span className={`text-sm ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>By {blog.author}</span>
                   <Link to={`/blogs/${blog.id}`}>
                     <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 p-0">
                       Read More <ArrowRight size={16} className="ml-1" />

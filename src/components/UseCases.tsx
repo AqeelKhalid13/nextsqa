@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/components/ThemeProvider';
 
 const useCases = [
   {
@@ -42,6 +43,9 @@ const useCases = [
 ];
 
 const UseCases = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -65,7 +69,7 @@ const UseCases = () => {
   };
 
   return (
-    <section id="use-cases" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
+    <section id="use-cases" className={`py-20 md:py-32 ${isLight ? 'bg-white' : 'bg-secondary/30'} relative overflow-hidden`}>
       {/* Background pattern */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -109,8 +113,8 @@ const UseCases = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="text-primary font-medium mb-3 inline-block">For Everyone</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Use Cases</h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>Use Cases</h2>
+          <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
             See how different teams are using NextSQA to streamline their testing processes.
           </p>
         </motion.div>
@@ -125,12 +129,14 @@ const UseCases = () => {
           {useCases.map((useCase, index) => (
             <motion.div 
               key={index} 
-              className="neo-blur p-8 rounded-xl border border-gray-800 flex flex-col md:flex-row gap-6 hover:shadow-neumorphic transition-all duration-300"
+              className={`neo-blur p-8 rounded-xl border ${isLight ? 'border-gray-200' : 'border-gray-800'} flex flex-col md:flex-row gap-6 hover:shadow-neumorphic transition-all duration-300`}
               variants={itemVariants}
               whileHover={{ 
                 y: -10, 
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
-                borderColor: "rgba(255, 255, 255, 0.15)"
+                boxShadow: isLight 
+                  ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                  : "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)",
+                borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.15)"
               }}
             >
               <motion.div 
@@ -144,10 +150,10 @@ const UseCases = () => {
                 {useCase.icon}
               </motion.div>
               <div>
-                <h3 className="text-2xl font-bold mb-2 text-white">
+                <h3 className={`text-2xl font-bold mb-2 ${isLight ? 'text-gray-900' : 'text-white'}`}>
                   {useCase.title}
                 </h3>
-                <p className="text-gray-400">
+                <p className={isLight ? 'text-gray-600' : 'text-gray-400'}>
                   {useCase.description}
                 </p>
               </div>

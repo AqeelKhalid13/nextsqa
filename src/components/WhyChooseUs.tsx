@@ -1,8 +1,12 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/components/ThemeProvider';
 
 const WhyChooseUs = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const statVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: (i) => ({ 
@@ -17,7 +21,7 @@ const WhyChooseUs = () => {
   };
 
   return (
-    <section className="py-20 md:py-32 bg-secondary/30">
+    <section className={`py-20 md:py-32 ${isLight ? 'bg-white' : 'bg-secondary/30'}`}>
       <div className="container mx-auto px-6 md:px-10">
         <motion.div 
           className="text-center mb-12"
@@ -26,12 +30,12 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Why Choose NextSQA?</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>Why Choose NextSQA?</h2>
         </motion.div>
         
         <div className="grid md:grid-cols-3 gap-8">
           <motion.div 
-            className="neo-blur p-6 rounded-xl text-center border border-white/10"
+            className={`neo-blur p-6 rounded-xl text-center border ${isLight ? 'border-gray-200' : 'border-white/10'}`}
             custom={0}
             variants={statVariants}
             initial="hidden"
@@ -39,8 +43,10 @@ const WhyChooseUs = () => {
             viewport={{ once: true }}
             whileHover={{ 
               y: -10, 
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-              borderColor: "rgba(255, 255, 255, 0.2)" 
+              boxShadow: isLight 
+                ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)" 
             }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
@@ -53,11 +59,11 @@ const WhyChooseUs = () => {
             >
               80%
             </motion.div>
-            <p className="text-gray-300">Reduction in manual testing time</p>
+            <p className={isLight ? 'text-gray-700' : 'text-gray-300'}>Reduction in manual testing time</p>
           </motion.div>
           
           <motion.div 
-            className="neo-blur p-6 rounded-xl text-center border border-white/10"
+            className={`neo-blur p-6 rounded-xl text-center border ${isLight ? 'border-gray-200' : 'border-white/10'}`}
             custom={1}
             variants={statVariants}
             initial="hidden"
@@ -65,8 +71,10 @@ const WhyChooseUs = () => {
             viewport={{ once: true }}
             whileHover={{ 
               y: -10, 
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-              borderColor: "rgba(255, 255, 255, 0.2)" 
+              boxShadow: isLight 
+                ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)" 
             }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
@@ -79,11 +87,11 @@ const WhyChooseUs = () => {
             >
               90%
             </motion.div>
-            <p className="text-gray-300">Bugs caught before production</p>
+            <p className={isLight ? 'text-gray-700' : 'text-gray-300'}>Bugs caught before production</p>
           </motion.div>
           
           <motion.div 
-            className="neo-blur p-6 rounded-xl text-center border border-white/10"
+            className={`neo-blur p-6 rounded-xl text-center border ${isLight ? 'border-gray-200' : 'border-white/10'}`}
             custom={2}
             variants={statVariants}
             initial="hidden"
@@ -91,8 +99,10 @@ const WhyChooseUs = () => {
             viewport={{ once: true }}
             whileHover={{ 
               y: -10, 
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-              borderColor: "rgba(255, 255, 255, 0.2)" 
+              boxShadow: isLight 
+                ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)" 
             }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
@@ -105,7 +115,7 @@ const WhyChooseUs = () => {
             >
               3x
             </motion.div>
-            <p className="text-gray-300">Faster development iterations</p>
+            <p className={isLight ? 'text-gray-700' : 'text-gray-300'}>Faster development iterations</p>
           </motion.div>
         </div>
       </div>
