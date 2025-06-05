@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import WaitlistForm from './WaitlistForm';
+import { useTheme } from '@/components/ThemeProvider';
 
 interface CallToActionProps {
   onJoinWaitlist?: () => void;
 }
 
 const CallToAction = ({ onJoinWaitlist }: CallToActionProps) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [waitlistOpen, setWaitlistOpen] = useState(false);
   
   const handleJoinWaitlist = () => {
@@ -110,17 +113,19 @@ const CallToAction = ({ onJoinWaitlist }: CallToActionProps) => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="text-center">
-              <h3 className="text-xl font-bold mb-6 text-white">Seamlessly Integrates With</h3>
+              <h3 className={`text-xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>Seamlessly Integrates With</h3>
               <div className="flex flex-wrap justify-center gap-8 items-center">
                 {/* Integration logos */}
                 {["GitHub", "GitLab", "Azure DevOps", "Jenkins", "CircleCI"].map((platform, index) => (
                   <motion.div
                     key={platform}
-                    className="bg-gray-900/70 backdrop-blur-sm border border-white/10 p-4 rounded-lg shadow-sm"
+                    className={`neo-blur p-4 rounded-lg shadow-sm ${isLight ? 'border-gray-200' : 'border-white/10'}`}
                     whileHover={{ 
                       y: -5, 
-                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)", 
-                      borderColor: "rgba(255, 255, 255, 0.2)" 
+                      boxShadow: isLight 
+                        ? "0 8px 15px -3px rgba(0, 0, 0, 0.1)" 
+                        : "0 10px 15px -3px rgba(0, 0, 0, 0.3)", 
+                      borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)" 
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -138,7 +143,7 @@ const CallToAction = ({ onJoinWaitlist }: CallToActionProps) => {
                     >
                       {/* GitHub */}
                       {platform === "GitHub" && (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-8 w-8 ${isLight ? 'text-gray-700' : 'text-gray-300'}`} viewBox="0 0 24 24" fill="currentColor">
                           <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.21.66-.47v-1.66c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0112 6.844c.85.004 1.7.114 2.5.337 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.56 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
                         </svg>
                       )}
