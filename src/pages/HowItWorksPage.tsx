@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Code, TestTube, BarChart3 } from 'lucide-react';
@@ -8,6 +9,7 @@ import CallToAction from '@/components/CallToAction';
 import URLInputAnimation from '@/components/animations/URLInputAnimation';
 import AITestingAnimation from '@/components/animations/AITestingAnimation';
 import SmartReportAnimation from '@/components/animations/SmartReportAnimation';
+import { useTheme } from '@/components/ThemeProvider';
 
 const steps = [
   {
@@ -61,6 +63,9 @@ const features = [
 ];
 
 const HowItWorksPage = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -88,14 +93,16 @@ const HowItWorksPage = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
+      <section className={`pt-32 pb-20 hero-gradient relative overflow-hidden ${isLight ? 'bg-white' : ''}`}>
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
+          animate={{ opacity: isLight ? 0.1 : 0.2 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
+            background: isLight 
+              ? "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.08) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 70%)"
+              : "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 70%)"
           }}
         />
         
@@ -106,10 +113,10 @@ const HowItWorksPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className={`text-4xl md:text-6xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>
               How NextSQA <span className="text-gradient-primary">Works</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className={`text-xl mb-8 max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-300'}`}>
               Discover how our AI-powered testing platform transforms the way you test websites. 
               Simple, powerful, and designed for developers.
             </p>
@@ -118,7 +125,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* Steps Section */}
-      <section className="py-20 md:py-32">
+      <section className={`py-20 md:py-32 ${isLight ? 'bg-white' : ''}`}>
         <div className="container mx-auto px-6 md:px-10">
           <motion.div 
             className="space-y-20"
@@ -141,11 +148,11 @@ const HowItWorksPage = () => {
                     <span className="text-primary font-bold text-lg">Step {step.step}</span>
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                  <h3 className={`text-3xl md:text-4xl font-bold mb-4 ${isLight ? 'text-gray-900' : 'text-white'}`}>
                     {step.title}
                   </h3>
                   
-                  <p className="text-lg text-gray-300 mb-6">
+                  <p className={`text-lg mb-6 ${isLight ? 'text-gray-600' : 'text-gray-300'}`}>
                     {step.description}
                   </p>
                   
@@ -153,7 +160,7 @@ const HowItWorksPage = () => {
                     {step.details.map((detail, i) => (
                       <motion.li 
                         key={i}
-                        className="flex items-center gap-3 text-gray-300"
+                        className={`flex items-center gap-3 ${isLight ? 'text-gray-600' : 'text-gray-300'}`}
                         whileHover={{ x: 5 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
@@ -178,7 +185,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* Additional Features */}
-      <section className="py-20 bg-secondary/30">
+      <section className={`py-20 ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
         <div className="container mx-auto px-6 md:px-10">
           <motion.div 
             className="text-center mb-16"
@@ -187,10 +194,10 @@ const HowItWorksPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>
               Everything You Need
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
               Our comprehensive testing suite covers all aspects of web application quality assurance.
             </p>
           </motion.div>
@@ -206,15 +213,17 @@ const HowItWorksPage = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="neo-blur p-6 rounded-xl border border-white/10 text-center"
+                className={`neo-blur p-6 rounded-xl border text-center ${isLight ? 'border-gray-200' : 'border-white/10'}`}
                 whileHover={{ 
                   y: -5, 
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
-                  borderColor: "rgba(255, 255, 255, 0.15)"
+                  boxShadow: isLight 
+                    ? "0 8px 15px -3px rgba(0, 0, 0, 0.1)" 
+                    : "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
+                  borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.15)"
                 }}
               >
                 <CheckCircle className="h-8 w-8 text-primary mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-white">{feature}</h3>
+                <h3 className={`text-lg font-semibold ${isLight ? 'text-gray-900' : 'text-white'}`}>{feature}</h3>
               </motion.div>
             ))}
           </motion.div>
