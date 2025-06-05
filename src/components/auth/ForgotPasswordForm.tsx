@@ -57,8 +57,8 @@ const ForgotPasswordForm = ({ onSwitchToLogin }: ForgotPasswordFormProps) => {
       >
         <Card className="border-0 shadow-none bg-transparent">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-white">Email Sent!</CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardTitle className="text-2xl font-bold text-foreground">Email Sent!</CardTitle>
+            <CardDescription className="text-muted-foreground">
               We've sent password reset instructions to your email address.
             </CardDescription>
           </CardHeader>
@@ -67,14 +67,14 @@ const ForgotPasswordForm = ({ onSwitchToLogin }: ForgotPasswordFormProps) => {
               <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-8 h-8 text-green-400" />
               </div>
-              <p className="text-gray-400 mb-6">
+              <p className="text-muted-foreground mb-6">
                 Please check your email and follow the instructions to reset your password.
               </p>
             </div>
 
             <Button
               onClick={onSwitchToLogin}
-              className="w-full bg-primary hover:bg-primary/90 text-white"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Login
@@ -94,24 +94,24 @@ const ForgotPasswordForm = ({ onSwitchToLogin }: ForgotPasswordFormProps) => {
     >
       <Card className="border-0 shadow-none bg-transparent">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-white">Forgot Password?</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-2xl font-bold text-foreground">Forgot Password?</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Enter your email address and we'll send you instructions to reset your password.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white">Email Address</Label>
+              <Label htmlFor="email" className="text-foreground">Email Address</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-background/50 border-border text-white placeholder:text-gray-400"
+                  className="pl-10 bg-background border-border text-foreground placeholder:text-muted-foreground"
                   required
                 />
               </div>
@@ -119,7 +119,7 @@ const ForgotPasswordForm = ({ onSwitchToLogin }: ForgotPasswordFormProps) => {
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-white"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={isLoading}
             >
               {isLoading ? 'Sending...' : 'Send Reset Instructions'}

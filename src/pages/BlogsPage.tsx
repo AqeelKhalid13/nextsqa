@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
@@ -132,10 +131,10 @@ const BlogsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
               NextSQA <span className="text-gradient-primary">Blog</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Insights, tutorials, and stories about AI-powered testing, 
               development best practices, and the future of software quality.
             </p>
@@ -158,8 +157,8 @@ const BlogsPage = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === category
-                    ? 'bg-primary text-white shadow-glow-small'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    ? 'bg-primary text-primary-foreground shadow-glow-small'
+                    : 'bg-card/50 text-muted-foreground hover:bg-card/80'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -176,7 +175,7 @@ const BlogsPage = () => {
         <section className="py-16">
           <div className="container mx-auto px-6 md:px-10">
             <motion.div 
-              className="neo-blur rounded-xl border border-white/10 overflow-hidden group"
+              className="neo-blur rounded-xl border border-border overflow-hidden group"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -193,14 +192,14 @@ const BlogsPage = () => {
                     className="w-full h-64 lg:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
                       Featured
                     </span>
                   </div>
                 </div>
                 
                 <div className="p-8 flex flex-col justify-center">
-                  <div className="flex items-center gap-4 text-gray-400 text-sm mb-4">
+                  <div className="flex items-center gap-4 text-muted-foreground text-sm mb-4">
                     <span className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs">
                       {blogs[0].category}
                     </span>
@@ -214,16 +213,16 @@ const BlogsPage = () => {
                     </div>
                   </div>
                   
-                  <h2 className="text-3xl font-bold text-white mb-4">
+                  <h2 className="text-3xl font-bold text-foreground mb-4">
                     {blogs[0].title}
                   </h2>
                   
-                  <p className="text-gray-300 mb-6">
+                  <p className="text-muted-foreground mb-6">
                     {blogs[0].excerpt}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-400">By {blogs[0].author}</span>
+                    <span className="text-muted-foreground">By {blogs[0].author}</span>
                     <Link to={`/blogs/${blogs[0].id}`}>
                       <Button className="bg-primary hover:bg-primary/90">
                         Read Article <ArrowRight size={16} className="ml-2" />
@@ -249,7 +248,7 @@ const BlogsPage = () => {
             {filteredBlogs.slice(selectedCategory === "All" ? 1 : 0).map((blog) => (
               <motion.article 
                 key={blog.id}
-                className="neo-blur rounded-xl border border-gray-800 overflow-hidden group"
+                className="neo-blur rounded-xl border border-border overflow-hidden group"
                 variants={itemVariants}
                 whileHover={{ 
                   y: -10, 
@@ -264,7 +263,7 @@ const BlogsPage = () => {
                     className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-primary/90 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                    <span className="bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
                       <Tag size={12} />
                       {blog.category}
                     </span>
@@ -272,7 +271,7 @@ const BlogsPage = () => {
                 </div>
                 
                 <div className="p-6">
-                  <div className="flex items-center gap-4 text-gray-400 text-sm mb-3">
+                  <div className="flex items-center gap-4 text-muted-foreground text-sm mb-3">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       <span>{new Date(blog.date).toLocaleDateString()}</span>
@@ -283,16 +282,16 @@ const BlogsPage = () => {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <p className="text-gray-400 mb-4 line-clamp-3">
+                  <p className="text-muted-foreground mb-4 line-clamp-3">
                     {blog.excerpt}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-400 text-sm">By {blog.author}</span>
+                    <span className="text-muted-foreground text-sm">By {blog.author}</span>
                     <Link to={`/blogs/${blog.id}`}>
                       <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 p-0">
                         Read More <ArrowRight size={16} className="ml-1" />
