@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Code, Users, Zap, Clock, CheckCircle, ArrowRight } from 'lucide-react';
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CallToAction from '@/components/CallToAction';
+import { useTheme } from '@/components/ThemeProvider';
 
 const useCases = [
   {
@@ -140,6 +140,9 @@ const testimonials = [
 ];
 
 const UseCasesPage = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -163,11 +166,11 @@ const UseCasesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={`min-h-screen ${isLight ? 'bg-white text-gray-900' : 'bg-background text-foreground'}`}>
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
+      <section className={`pt-32 pb-20 ${isLight ? 'bg-gradient-to-br from-gray-50 to-blue-50' : 'hero-gradient'} relative overflow-hidden`}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
@@ -185,10 +188,10 @@ const UseCasesPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className={`text-4xl md:text-6xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>
               Perfect for <span className="text-gradient-primary">Every Team</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className={`text-xl mb-8 max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-300'}`}>
               See how different teams and roles are using NextSQA to transform 
               their testing workflows and ship better software faster.
             </p>
@@ -197,7 +200,7 @@ const UseCasesPage = () => {
       </section>
 
       {/* Use Cases Grid */}
-      <section className="py-20 md:py-32">
+      <section className={`py-20 md:py-32 ${isLight ? 'bg-white' : ''}`}>
         <div className="container mx-auto px-6 md:px-10">
           <motion.div 
             className="grid lg:grid-cols-2 gap-8"
@@ -210,11 +213,13 @@ const UseCasesPage = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="neo-blur p-8 rounded-xl border border-white/10 group"
+                className={`p-8 rounded-xl border group ${isLight ? 'bg-white border-gray-200 shadow-sm' : 'neo-blur border-white/10'}`}
                 whileHover={{ 
                   y: -10, 
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  borderColor: "rgba(255, 255, 255, 0.2)"
+                  boxShadow: isLight 
+                    ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                    : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                  borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.2)"
                 }}
               >
                 <div className="flex items-start gap-6">
@@ -230,11 +235,11 @@ const UseCasesPage = () => {
                   </motion.div>
                   
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors">
+                    <h3 className={`text-2xl font-bold mb-3 group-hover:text-primary transition-colors ${isLight ? 'text-gray-900' : 'text-white'}`}>
                       {useCase.title}
                     </h3>
                     
-                    <p className="text-gray-300 mb-6">
+                    <p className={`mb-6 ${isLight ? 'text-gray-600' : 'text-gray-300'}`}>
                       {useCase.description}
                     </p>
                     
@@ -243,7 +248,7 @@ const UseCasesPage = () => {
                         <h4 className="text-lg font-semibold text-red-400 mb-3">Challenges</h4>
                         <ul className="space-y-2">
                           {useCase.challenges.map((challenge, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
+                            <li key={i} className={`flex items-start gap-2 text-sm ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
                               <div className="w-1.5 h-1.5 bg-red-400 rounded-full mt-2 flex-shrink-0" />
                               <span>{challenge}</span>
                             </li>
@@ -255,7 +260,7 @@ const UseCasesPage = () => {
                         <h4 className="text-lg font-semibold text-green-400 mb-3">Solutions</h4>
                         <ul className="space-y-2">
                           {useCase.solutions.map((solution, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
+                            <li key={i} className={`flex items-start gap-2 text-sm ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
                               <CheckCircle size={14} className="text-green-400 mt-0.5 flex-shrink-0" />
                               <span>{solution}</span>
                             </li>
@@ -264,9 +269,9 @@ const UseCasesPage = () => {
                       </div>
                     </div>
                     
-                    <div className="bg-primary/10 rounded-lg p-4 border-l-4 border-primary">
+                    <div className={`rounded-lg p-4 border-l-4 border-primary ${isLight ? 'bg-blue-50' : 'bg-primary/10'}`}>
                       <div className="text-primary font-semibold text-sm mb-1">Results</div>
-                      <div className="text-white font-bold">{useCase.results}</div>
+                      <div className={`font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>{useCase.results}</div>
                     </div>
                   </div>
                 </div>
@@ -277,7 +282,7 @@ const UseCasesPage = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-secondary/30">
+      <section className={`py-20 ${isLight ? 'bg-gray-50' : 'bg-secondary/30'}`}>
         <div className="container mx-auto px-6 md:px-10">
           <motion.div 
             className="text-center mb-16"
@@ -286,10 +291,10 @@ const UseCasesPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLight ? 'text-gray-900' : 'text-white'}`}>
               What Teams Are Saying
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
               Real stories from teams who transformed their testing with NextSQA.
             </p>
           </motion.div>
@@ -305,20 +310,22 @@ const UseCasesPage = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="neo-blur p-8 rounded-xl border border-white/10"
+                className={`p-8 rounded-xl border ${isLight ? 'bg-white border-gray-200 shadow-sm' : 'neo-blur border-white/10'}`}
                 whileHover={{ 
                   y: -5, 
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
-                  borderColor: "rgba(255, 255, 255, 0.15)"
+                  boxShadow: isLight 
+                    ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" 
+                    : "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
+                  borderColor: isLight ? "rgba(82, 54, 255, 0.3)" : "rgba(255, 255, 255, 0.15)"
                 }}
               >
-                <blockquote className="text-gray-300 mb-6 italic">
+                <blockquote className={`mb-6 italic ${isLight ? 'text-gray-600' : 'text-gray-300'}`}>
                   "{testimonial.quote}"
                 </blockquote>
                 
                 <div>
-                  <div className="text-white font-semibold">{testimonial.author}</div>
-                  <div className="text-gray-400 text-sm">{testimonial.role}</div>
+                  <div className={`font-semibold ${isLight ? 'text-gray-900' : 'text-white'}`}>{testimonial.author}</div>
+                  <div className={`text-sm ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{testimonial.role}</div>
                   <div className="text-primary text-sm font-medium">{testimonial.company}</div>
                 </div>
               </motion.div>
