@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -31,6 +30,9 @@ const LoginForm = ({ onSwitchToRegister, onSwitchToForgot }: LoginFormProps) => 
         title: "Login Successful",
         description: "Welcome back to NextSQA!",
       });
+      
+      // Redirect to dashboard
+      window.location.href = '/dashboard';
     }, 2000);
   };
 
