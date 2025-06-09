@@ -12,8 +12,11 @@ import {
   GitBranch,
   Database,
   Activity,
-  Target
+  Target,
+  Puzzle,
+  TestTube
 } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Sidebar,
   SidebarContent,
@@ -32,6 +35,11 @@ const menuItems = [
     title: "Dashboard",
     url: "/dashboard",
     icon: Home,
+  },
+  {
+    title: "Start Testing",
+    url: "/start-testing",
+    icon: TestTube,
   },
   {
     title: "Test Cases",
@@ -64,6 +72,11 @@ const menuItems = [
     icon: Database,
   },
   {
+    title: "Integrations",
+    url: "/integrations",
+    icon: Puzzle,
+  },
+  {
     title: "Team Management",
     url: "/team",
     icon: Users,
@@ -91,6 +104,8 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar className="border-r border-border">
       <SidebarHeader className="p-4">
@@ -112,11 +127,16 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="text-foreground hover:bg-accent hover:text-accent-foreground">
-                    <a href={item.url} className="flex items-center gap-2">
+                  <SidebarMenuButton 
+                    asChild 
+                    className={`text-foreground hover:bg-accent hover:text-accent-foreground hover:scale-105 transition-all duration-200 ${
+                      location.pathname === item.url ? 'bg-accent text-accent-foreground' : ''
+                    }`}
+                  >
+                    <Link to={item.url} className="flex items-center gap-2">
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

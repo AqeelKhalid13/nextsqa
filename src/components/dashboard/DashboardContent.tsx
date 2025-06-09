@@ -6,6 +6,9 @@ import { TestExecutionChart } from './charts/TestExecutionChart';
 import { BugStatusChart } from './charts/BugStatusChart';
 import { QualityMetricsChart } from './charts/QualityMetricsChart';
 import { DashboardStats } from './DashboardStats';
+import { WelcomeHeader } from './WelcomeHeader';
+import { RecentActivity } from './RecentActivity';
+import { QuickActions } from './QuickActions';
 
 export function DashboardContent() {
   return (
@@ -19,12 +22,21 @@ export function DashboardContent() {
       </header>
       
       <main className="flex-1 p-6 space-y-6">
+        {/* Welcome Header */}
+        <WelcomeHeader />
+        
         {/* Stats Cards */}
         <DashboardStats />
         
+        {/* Quick Actions and Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <QuickActions />
+          <RecentActivity />
+        </div>
+        
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="border-border">
+          <Card className="border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader>
               <CardTitle className="text-foreground">Test Execution Overview</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -36,7 +48,7 @@ export function DashboardContent() {
             </CardContent>
           </Card>
           
-          <Card className="border-border">
+          <Card className="border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader>
               <CardTitle className="text-foreground">Bug Status Distribution</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -49,7 +61,7 @@ export function DashboardContent() {
           </Card>
         </div>
         
-        <Card className="border-border">
+        <Card className="border-border hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-foreground">Quality Metrics</CardTitle>
             <CardDescription className="text-muted-foreground">
