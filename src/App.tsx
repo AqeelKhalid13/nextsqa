@@ -17,6 +17,15 @@ import TestCasesPage from "./pages/TestCasesPage";
 import BugReportsPage from "./pages/BugReportsPage";
 import IntegrationsPage from "./pages/IntegrationsPage";
 import StartTestingPage from "./pages/StartTestingPage";
+import TestExecutionPage from "./pages/TestExecutionPage";
+import TestPlansPage from "./pages/TestPlansPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import ReportsPage from "./pages/ReportsPage";
+import TeamManagementPage from "./pages/TeamManagementPage";
+import VersionControlPage from "./pages/VersionControlPage";
+import AutomationPage from "./pages/AutomationPage";
+import QualityMetricsPage from "./pages/QualityMetricsPage";
+import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,10 +46,19 @@ const App = () => (
             <Route path="/blogs/:id" element={<BlogDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/test-cases" element={<TestCasesPage />} />
-            <Route path="/bug-reports" element={<BugReportsPage />} />
-            <Route path="/integrations" element={<IntegrationsPage />} />
             <Route path="/start-testing" element={<StartTestingPage />} />
+            <Route path="/test-cases" element={<TestCasesPage />} />
+            <Route path="/test-execution" element={<TestExecutionPage />} />
+            <Route path="/bug-reports" element={<BugReportsPage />} />
+            <Route path="/test-plans" element={<TestPlansPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/integrations" element={<IntegrationsPage />} />
+            <Route path="/team" element={<TeamManagementPage />} />
+            <Route path="/version-control" element={<VersionControlPage />} />
+            <Route path="/automation" element={<AutomationPage />} />
+            <Route path="/quality-metrics" element={<QualityMetricsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
