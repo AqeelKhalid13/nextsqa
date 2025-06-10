@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -15,7 +14,8 @@ const TestExecutionPage = () => {
   const [executions, setExecutions] = useState([
     {
       id: 1,
-      name: 'Login Functionality Test Suite',
+      name: 'User Login Validation Test Suite',
+      testCases: ['User Login Validation', 'Password Reset Functionality', 'Session Management'],
       status: 'Running',
       progress: 65,
       startTime: '2024-01-15 10:30 AM',
@@ -23,17 +23,23 @@ const TestExecutionPage = () => {
       passed: 8,
       failed: 2,
       total: 15,
+      environment: 'Chrome Browser, Windows 10',
+      assignedTo: 'John Doe',
       logs: [
         'Test suite started at 10:30 AM',
-        'Login form validation: PASSED',
-        'Password strength check: PASSED',
-        'Invalid credentials handling: FAILED',
-        'Session management: PASSED'
+        'User Login Validation: PASSED',
+        'Password strength validation: PASSED',
+        'Invalid credentials handling: FAILED - Error message not displayed',
+        'Session timeout functionality: PASSED',
+        'Password reset email: PASSED',
+        'Account lockout after failed attempts: FAILED - Lockout not triggered',
+        'Remember me functionality: PASSED'
       ]
     },
     {
       id: 2,
-      name: 'API Integration Tests',
+      name: 'Dashboard Performance Test Suite',
+      testCases: ['Dashboard Performance Test', 'Widget Load Testing', 'Data Accuracy Verification'],
       status: 'Completed',
       progress: 100,
       startTime: '2024-01-15 09:00 AM',
@@ -41,16 +47,21 @@ const TestExecutionPage = () => {
       passed: 12,
       failed: 0,
       total: 12,
+      environment: 'Multiple browsers',
+      assignedTo: 'Jane Smith',
       logs: [
-        'API test suite completed successfully',
-        'All endpoints responding correctly',
-        'Data validation: PASSED',
-        'Error handling: PASSED'
+        'Performance test suite completed successfully',
+        'Dashboard load time: 2.1 seconds (PASSED)',
+        'All widgets loaded within acceptable time',
+        'Data accuracy verified across all sections',
+        'Memory usage within acceptable limits',
+        'CPU usage optimized during load'
       ]
     },
     {
       id: 3,
-      name: 'UI Regression Tests',
+      name: 'Form Validation Test Suite',
+      testCases: ['Form Validation Rules', 'Input Sanitization', 'Error Message Display'],
       status: 'Pending',
       progress: 0,
       startTime: '-',
@@ -58,7 +69,9 @@ const TestExecutionPage = () => {
       passed: 0,
       failed: 0,
       total: 25,
-      logs: ['Test suite queued for execution']
+      environment: 'Cross-browser testing',
+      assignedTo: 'Mike Johnson',
+      logs: ['Test suite queued for execution', 'Waiting for test environment setup']
     }
   ]);
 
@@ -151,7 +164,12 @@ const TestExecutionPage = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {getStatusIcon(execution.status)}
-                        <CardTitle className="text-foreground">{execution.name}</CardTitle>
+                        <div>
+                          <CardTitle className="text-foreground">{execution.name}</CardTitle>
+                          <p className="text-sm text-muted-foreground">
+                            Assigned to: {execution.assignedTo} • Environment: {execution.environment}
+                          </p>
+                        </div>
                       </div>
                       <Badge variant={execution.status === 'Completed' ? 'default' : 'secondary'}>
                         {execution.status}
@@ -187,6 +205,17 @@ const TestExecutionPage = () => {
                         <div>
                           <p className="text-muted-foreground">Failed</p>
                           <p className="text-red-600 font-medium">{execution.failed}/{execution.total}</p>
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-2">Test Cases:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {execution.testCases.map((testCase, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {testCase}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
                       
@@ -264,8 +293,27 @@ const TestExecutionPage = () => {
                                   <p className="text-sm font-medium">Tests Failed</p>
                                   <p className="text-lg text-red-600">{execution.failed}</p>
                                 </div>
+                                <div>
+                                  <p className="text-sm font-medium">Assigned To</p>
+                                  <p className="text-sm">{execution.assignedTo}</p>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium">Environment</p>
+                                  <p className="text-sm">{execution.environment}</p>
+                                </div>
                               </div>
                               
+                              <div>
+                                <p className="text-sm font-medium mb-2">Test Cases</p>
+                                <div className="flex flex-wrap gap-2">
+                                  {execution.testCases.map((testCase, index) => (
+                                    <Badge key={index} variant="outline">
+                                      {testCase}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+
                               <div>
                                 <p className="text-sm font-medium mb-2">Execution Logs</p>
                                 <div className="bg-accent/30 p-4 rounded-lg max-h-64 overflow-y-auto">

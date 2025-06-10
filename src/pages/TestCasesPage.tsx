@@ -16,63 +16,83 @@ const TestCasesPage = () => {
   const [testCases, setTestCases] = useState([
     { 
       id: 1, 
-      title: 'Login Functionality Test', 
-      description: 'Test user login with valid credentials', 
+      title: 'User Login Validation', 
+      description: 'Verify user can login with valid credentials and error handling for invalid ones', 
       status: 'Active', 
       priority: 'High',
       type: 'Functional',
-      assignee: 'John Doe',
-      lastExecuted: '2024-01-15',
-      executionTime: '5 min',
-      steps: 8
+      assignedTo: 'John Doe',
+      createdDate: '2024-01-15',
+      lastModified: '2024-01-15',
+      estimatedTime: '30 minutes',
+      actualTime: '25 minutes',
+      tags: ['login', 'authentication'],
+      steps: [
+        'Navigate to login page',
+        'Enter valid username and password',
+        'Click login button',
+        'Verify successful login',
+        'Test invalid credentials',
+        'Verify error message display',
+        'Test password reset functionality',
+        'Verify session timeout'
+      ],
+      expectedResult: 'User should be able to login with valid credentials and see appropriate error messages for invalid attempts',
+      testData: 'Valid: user@test.com/password123, Invalid: wrong@test.com/wrongpass',
+      environment: 'Chrome Browser, Windows 10',
+      category: 'Authentication'
     },
     { 
       id: 2, 
-      title: 'Dashboard Load Test', 
-      description: 'Verify dashboard loads correctly', 
+      title: 'Dashboard Performance Test', 
+      description: 'Verify dashboard loads within acceptable time limits and displays correct data', 
       status: 'Active', 
       priority: 'Medium',
       type: 'Performance',
-      assignee: 'Jane Smith',
-      lastExecuted: '2024-01-14',
-      executionTime: '3 min',
-      steps: 5
+      assignedTo: 'Jane Smith',
+      createdDate: '2024-01-14',
+      lastModified: '2024-01-14',
+      estimatedTime: '45 minutes',
+      actualTime: '40 minutes',
+      tags: ['performance', 'dashboard'],
+      steps: [
+        'Login to application',
+        'Navigate to dashboard',
+        'Measure page load time',
+        'Verify all widgets load',
+        'Check data accuracy'
+      ],
+      expectedResult: 'Dashboard should load within 3 seconds and display accurate data',
+      testData: 'User with dashboard access privileges',
+      environment: 'Chrome Browser, Windows 10',
+      category: 'Performance'
     },
     { 
       id: 3, 
-      title: 'Form Validation Test', 
-      description: 'Test form validation rules', 
+      title: 'Form Validation Rules', 
+      description: 'Test all form validation rules for user registration form', 
       status: 'Draft', 
       priority: 'Low',
       type: 'Functional',
-      assignee: 'Mike Johnson',
-      lastExecuted: 'Never',
-      executionTime: '-',
-      steps: 12
-    },
-    { 
-      id: 4, 
-      title: 'API Response Test', 
-      description: 'Test API endpoint responses', 
-      status: 'Active', 
-      priority: 'High',
-      type: 'API',
-      assignee: 'Sarah Wilson',
-      lastExecuted: '2024-01-13',
-      executionTime: '2 min',
-      steps: 6
-    },
-    { 
-      id: 5, 
-      title: 'Security Test Suite', 
-      description: 'Comprehensive security testing', 
-      status: 'Inactive', 
-      priority: 'Critical',
-      type: 'Security',
-      assignee: 'Alex Brown',
-      lastExecuted: '2024-01-10',
-      executionTime: '15 min',
-      steps: 20
+      assignedTo: 'Mike Johnson',
+      createdDate: '2024-01-13',
+      lastModified: '2024-01-13',
+      estimatedTime: '60 minutes',
+      actualTime: '',
+      tags: ['validation', 'forms'],
+      steps: [
+        'Navigate to registration form',
+        'Test required field validation',
+        'Test email format validation',
+        'Test password strength rules',
+        'Test phone number format',
+        'Submit form with valid data',
+        'Verify successful registration'
+      ],
+      expectedResult: 'Form should validate all fields correctly and prevent submission with invalid data',
+      testData: 'Various valid and invalid input combinations',
+      environment: 'Multiple browsers',
+      category: 'Validation'
     }
   ]);
   
@@ -86,7 +106,7 @@ const TestCasesPage = () => {
   const filteredTestCases = testCases.filter(testCase => {
     const matchesSearch = testCase.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          testCase.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         testCase.assignee.toLowerCase().includes(searchTerm.toLowerCase());
+                         testCase.assignedTo.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || testCase.status === statusFilter;
     const matchesPriority = priorityFilter === 'all' || testCase.priority === priorityFilter;
     const matchesType = typeFilter === 'all' || testCase.type === typeFilter;
@@ -239,8 +259,8 @@ const TestCasesPage = () => {
                       <TableHead>Type</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Priority</TableHead>
-                      <TableHead>Assignee</TableHead>
-                      <TableHead>Last Executed</TableHead>
+                      <TableHead>Assigned To</TableHead>
+                      <TableHead>Created Date</TableHead>
                       <TableHead>Steps</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
@@ -269,14 +289,14 @@ const TestCasesPage = () => {
                             {testCase.priority}
                           </Badge>
                         </TableCell>
-                        <TableCell>{testCase.assignee}</TableCell>
+                        <TableCell>{testCase.assignedTo}</TableCell>
                         <TableCell>
                           <div>
-                            <p className="text-sm">{testCase.lastExecuted}</p>
-                            <p className="text-xs text-muted-foreground">{testCase.executionTime}</p>
+                            <p className="text-sm">{testCase.createdDate}</p>
+                            <p className="text-xs text-muted-foreground">{testCase.estimatedTime}</p>
                           </div>
                         </TableCell>
-                        <TableCell>{testCase.steps}</TableCell>
+                        <TableCell>{testCase.steps.length}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button 
