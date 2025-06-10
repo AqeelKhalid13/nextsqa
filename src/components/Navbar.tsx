@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from "lucide-react";
+import { Menu, X, FlowChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -178,6 +178,16 @@ const Navbar = () => {
             {/* Call to action buttons */}
             {!isMobile && (
               <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
+                <Link to="/flow-diagram">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-foreground hover:bg-accent"
+                    title="View System Flow Diagram"
+                  >
+                    <FlowChart className="h-5 w-5" />
+                  </Button>
+                </Link>
                 <ThemeToggle />
                 {isLoggedIn ? (
                   <UserProfileDropdown />
@@ -208,6 +218,16 @@ const Navbar = () => {
             
             {/* Mobile menu button */}
             <motion.div variants={itemVariants} className="md:hidden flex items-center space-x-2">
+              <Link to="/flow-diagram">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-foreground hover:bg-accent"
+                  title="View System Flow Diagram"
+                >
+                  <FlowChart className="h-5 w-5" />
+                </Button>
+              </Link>
               <ThemeToggle />
               {isLoggedIn && <UserProfileDropdown />}
               <Button 
@@ -255,6 +275,17 @@ const Navbar = () => {
                       )}
                     </motion.div>
                   ))}
+                  
+                  <motion.div variants={mobileItemVariants}>
+                    <Link 
+                      to="/flow-diagram"
+                      className="text-xl text-foreground border-b border-border pb-2 flex items-center space-x-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <FlowChart className="h-5 w-5" />
+                      <span>System Flow</span>
+                    </Link>
+                  </motion.div>
                   
                   {!isLoggedIn && (
                     <motion.div variants={mobileItemVariants} className="pt-4">

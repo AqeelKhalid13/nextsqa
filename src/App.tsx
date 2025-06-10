@@ -1,4 +1,5 @@
 
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,6 +27,7 @@ import VersionControlPage from "./pages/VersionControlPage";
 import AutomationPage from "./pages/AutomationPage";
 import QualityMetricsPage from "./pages/QualityMetricsPage";
 import SettingsPage from "./pages/SettingsPage";
+import FlowDiagramPage from "./pages/FlowDiagramPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,6 +61,7 @@ const App = () => (
             <Route path="/automation" element={<AutomationPage />} />
             <Route path="/quality-metrics" element={<QualityMetricsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/flow-diagram" element={<FlowDiagramPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
