@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,12 +6,26 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Link } from 'react-router-dom';
 import WaitlistForm from './WaitlistForm';
 import ThemeToggle from './ThemeToggle';
+import UserProfileDropdown from './UserProfileDropdown';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isMobile = useIsMobile();
+
+  // Check if user is logged in
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const user = localStorage.getItem('user');
+      setIsLoggedIn(!!user);
+    };
+    
+    checkLoginStatus();
+    window.addEventListener('storage', checkLoginStatus);
+    return () => window.removeEventListener('storage', checkLoginStatus);
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -166,30 +179,37 @@ const Navbar = () => {
             {!isMobile && (
               <motion.div variants={itemVariants} className="hidden md:flex items-center space-x-4">
                 <ThemeToggle />
-                <motion.div>
-                  <Link to="/login">
-                    <Button
-                      variant="ghost"
-                      className="text-foreground hover:bg-accent"
-                    >
-                      Log in
-                    </Button>
-                  </Link>
-                </motion.div>
-                <motion.div>
-                  <Button
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => setWaitlistOpen(true)}
-                  >
-                    Join our Wait List
-                  </Button>
-                </motion.div>
+                {isLoggedIn ? (
+                  <UserProfileDropdown />
+                ) : (
+                  <>
+                    <motion.div>
+                      <Link to="/login">
+                        <Button
+                          variant="ghost"
+                          className="text-foreground hover:bg-accent"
+                        >
+                          Log in
+                        </Button>
+                      </Link>
+                    </motion.div>
+                    <motion.div>
+                      <Button
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                        onClick={() => setWaitlistOpen(true)}
+                      >
+                        Join our Wait List
+                      </Button>
+                    </motion.div>
+                  </>
+                )}
               </motion.div>
             )}
             
             {/* Mobile menu button */}
             <motion.div variants={itemVariants} className="md:hidden flex items-center space-x-2">
               <ThemeToggle />
+              {isLoggedIn && <UserProfileDropdown />}
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -236,27 +256,29 @@ const Navbar = () => {
                     </motion.div>
                   ))}
                   
-                  <motion.div variants={mobileItemVariants} className="pt-4">
-                    <Button 
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mb-4"
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        setWaitlistOpen(true);
-                      }}
-                    >
-                      Join our Wait List
-                    </Button>
-                    
-                    <Link to="/login">
+                  {!isLoggedIn && (
+                    <motion.div variants={mobileItemVariants} className="pt-4">
                       <Button 
-                        variant="outline"
-                        className="w-full text-foreground border-border hover:bg-accent"
-                        onClick={() => setMobileMenuOpen(false)}
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mb-4"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setWaitlistOpen(true);
+                        }}
                       >
-                        Log in
+                        Join our Wait List
                       </Button>
-                    </Link>
-                  </motion.div>
+                      
+                      <Link to="/login">
+                        <Button 
+                          variant="outline"
+                          className="w-full text-foreground border-border hover:bg-accent"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Log in
+                        </Button>
+                      </Link>
+                    </motion.div>
+                  )}
                 </nav>
               </div>
             </motion.div>
