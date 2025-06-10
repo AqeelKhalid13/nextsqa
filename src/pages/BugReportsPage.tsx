@@ -7,12 +7,36 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Edit, Trash2, Bug, Search, Filter, Eye, MessageSquare } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { Plus, Edit, Trash2, Bug, Search, Filter, Eye, MessageSquare, Paperclip } from 'lucide-react';
+
+interface BugReport {
+  id: number;
+  title: string;
+  severity: string;
+  status: string;
+  assignee: string;
+  reportedDate: string;
+  reporter: string;
+  environment: string;
+  browser: string;
+  priority: string;
+  comments: number;
+  attachments: number;
+  description?: string;
+  stepsToReproduce?: string;
+  expectedResult?: string;
+  actualResult?: string;
+}
 
 const BugReportsPage = () => {
-  const [bugs, setBugs] = useState([
+  const { toast } = useToast();
+  const [bugs, setBugs] = useState<BugReport[]>([
     { 
       id: 1, 
       title: 'Login button not responsive', 
@@ -25,7 +49,11 @@ const BugReportsPage = () => {
       browser: 'Chrome',
       priority: 'High',
       comments: 3,
-      attachments: 2
+      attachments: 2,
+      description: 'The login button becomes unresponsive after multiple clicks',
+      stepsToReproduce: '1. Navigate to login page\n2. Click login button multiple times\n3. Observe button becomes unresponsive',
+      expectedResult: 'Button should remain responsive',
+      actualResult: 'Button becomes unresponsive after 3-4 clicks'
     },
     { 
       id: 2, 
@@ -39,7 +67,11 @@ const BugReportsPage = () => {
       browser: 'Firefox',
       priority: 'Medium',
       comments: 5,
-      attachments: 1
+      attachments: 1,
+      description: 'Form validation shows incorrect error messages',
+      stepsToReproduce: '1. Fill form with invalid data\n2. Submit form\n3. Check error messages',
+      expectedResult: 'Correct validation messages should appear',
+      actualResult: 'Generic error message appears instead of specific ones'
     },
     { 
       id: 3, 
@@ -53,7 +85,11 @@ const BugReportsPage = () => {
       browser: 'Safari',
       priority: 'Low',
       comments: 2,
-      attachments: 0
+      attachments: 0,
+      description: 'Dashboard takes too long to load',
+      stepsToReproduce: '1. Login to application\n2. Navigate to dashboard\n3. Observe loading time',
+      expectedResult: 'Dashboard should load within 2 seconds',
+      actualResult: 'Dashboard takes 5-7 seconds to load'
     },
     { 
       id: 4, 
@@ -67,7 +103,11 @@ const BugReportsPage = () => {
       browser: 'Edge',
       priority: 'Critical',
       comments: 8,
-      attachments: 3
+      attachments: 3,
+      description: 'API calls timeout frequently causing data loss',
+      stepsToReproduce: '1. Make API call\n2. Wait for response\n3. Observe timeout error',
+      expectedResult: 'API should respond within timeout limit',
+      actualResult: 'API times out frequently'
     },
     { 
       id: 5, 
@@ -81,7 +121,11 @@ const BugReportsPage = () => {
       browser: 'Mobile Chrome',
       priority: 'Medium',
       comments: 4,
-      attachments: 5
+      attachments: 5,
+      description: 'UI elements misaligned on mobile devices',
+      stepsToReproduce: '1. Open app on mobile device\n2. Navigate to main page\n3. Observe alignment issues',
+      expectedResult: 'UI should be properly aligned',
+      actualResult: 'Elements are overlapping and misaligned'
     }
   ]);
 
@@ -89,6 +133,22 @@ const BugReportsPage = () => {
   const [severityFilter, setSeverityFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [environmentFilter, setEnvironmentFilter] = useState('all');
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [selectedBug, setSelectedBug] = useState<BugReport | null>(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    severity: 'Medium',
+    priority: 'Medium',
+    environment: 'Development',
+    browser: 'Chrome',
+    stepsToReproduce: '',
+    expectedResult: '',
+    actualResult: '',
+    assignee: 'John Doe'
+  });
 
   const filteredBugs = bugs.filter(bug => {
     const matchesSearch = bug.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -101,7 +161,97 @@ const BugReportsPage = () => {
     return matchesSearch && matchesSeverity && matchesStatus && matchesEnvironment;
   });
 
-  const getSeverityColor = (severity) => {
+  const handleCreateBug = () => {
+    const newBug: BugReport = {
+      id: bugs.length + 1,
+      title: formData.title,
+      description: formData.description,
+      severity: formData.severity,
+      status: 'Open',
+      assignee: formData.assignee,
+      reportedDate: new Date().toISOString().split('T')[0],
+      reporter: 'Current User',
+      environment: formData.environment,
+      browser: formData.browser,
+      priority: formData.priority,
+      comments: 0,
+      attachments: 0,
+      stepsToReproduce: formData.stepsToReproduce,
+      expectedResult: formData.expectedResult,
+      actualResult: formData.actualResult
+    };
+
+    setBugs([...bugs, newBug]);
+    setIsCreateDialogOpen(false);
+    setFormData({
+      title: '',
+      description: '',
+      severity: 'Medium',
+      priority: 'Medium',
+      environment: 'Development',
+      browser: 'Chrome',
+      stepsToReproduce: '',
+      expectedResult: '',
+      actualResult: '',
+      assignee: 'John Doe'
+    });
+    
+    toast({
+      title: "Success",
+      description: "Bug report created successfully!",
+    });
+  };
+
+  const handleEditBug = () => {
+    if (!selectedBug) return;
+
+    setBugs(prev => prev.map(bug => 
+      bug.id === selectedBug.id 
+        ? { ...bug, ...formData }
+        : bug
+    ));
+    
+    setIsEditDialogOpen(false);
+    setSelectedBug(null);
+    
+    toast({
+      title: "Success",
+      description: "Bug report updated successfully!",
+    });
+  };
+
+  const handleDeleteBug = (bugId: number) => {
+    setBugs(prev => prev.filter(bug => bug.id !== bugId));
+    
+    toast({
+      title: "Success",
+      description: "Bug report deleted successfully!",
+    });
+  };
+
+  const openEditDialog = (bug: BugReport) => {
+    setSelectedBug(bug);
+    setFormData({
+      title: bug.title,
+      description: bug.description || '',
+      severity: bug.severity,
+      priority: bug.priority,
+      environment: bug.environment,
+      browser: bug.browser,
+      stepsToReproduce: bug.stepsToReproduce || '',
+      expectedResult: bug.expectedResult || '',
+      actualResult: bug.actualResult || '',
+      assignee: bug.assignee
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const openViewDialog = (bug: BugReport) => {
+    setSelectedBug(bug);
+    setIsViewDialogOpen(true);
+  };
+
+  const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'Critical': return 'bg-red-100 text-red-800 hover:bg-red-200';
       case 'High': return 'bg-orange-100 text-orange-800 hover:bg-orange-200';
@@ -111,7 +261,7 @@ const BugReportsPage = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'Open': return 'bg-red-100 text-red-800 hover:bg-red-200';
       case 'In Progress': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
@@ -132,10 +282,157 @@ const BugReportsPage = () => {
               <h1 className="text-xl font-semibold text-foreground">Bug Reports</h1>
               <p className="text-sm text-muted-foreground">Track and manage bug reports</p>
             </div>
-            <Button className="hover:scale-105 transition-transform duration-200">
-              <Plus className="w-4 h-4 mr-2" />
-              Report Bug
-            </Button>
+            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="hover:scale-105 transition-transform duration-200">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Report Bug
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Report New Bug</DialogTitle>
+                  <DialogDescription>
+                    Provide detailed information about the bug you encountered.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="title" className="text-right">Title</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({...formData, title: e.target.value})}
+                      className="col-span-3"
+                      placeholder="Brief description of the bug"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="description" className="text-right">Description</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => setFormData({...formData, description: e.target.value})}
+                      className="col-span-3"
+                      placeholder="Detailed description of the bug"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="severity" className="text-right">Severity</Label>
+                      <Select value={formData.severity} onValueChange={(value) => setFormData({...formData, severity: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Low">Low</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="High">High</SelectItem>
+                          <SelectItem value="Critical">Critical</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="priority" className="text-right">Priority</Label>
+                      <Select value={formData.priority} onValueChange={(value) => setFormData({...formData, priority: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Low">Low</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="High">High</SelectItem>
+                          <SelectItem value="Critical">Critical</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="environment" className="text-right">Environment</Label>
+                      <Select value={formData.environment} onValueChange={(value) => setFormData({...formData, environment: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Development">Development</SelectItem>
+                          <SelectItem value="Staging">Staging</SelectItem>
+                          <SelectItem value="Production">Production</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="browser" className="text-right">Browser</Label>
+                      <Select value={formData.browser} onValueChange={(value) => setFormData({...formData, browser: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Chrome">Chrome</SelectItem>
+                          <SelectItem value="Firefox">Firefox</SelectItem>
+                          <SelectItem value="Safari">Safari</SelectItem>
+                          <SelectItem value="Edge">Edge</SelectItem>
+                          <SelectItem value="Mobile Chrome">Mobile Chrome</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="stepsToReproduce" className="text-right">Steps to Reproduce</Label>
+                    <Textarea
+                      id="stepsToReproduce"
+                      value={formData.stepsToReproduce}
+                      onChange={(e) => setFormData({...formData, stepsToReproduce: e.target.value})}
+                      className="col-span-3"
+                      placeholder="1. Step one&#10;2. Step two&#10;3. Step three"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="expectedResult" className="text-right">Expected Result</Label>
+                    <Textarea
+                      id="expectedResult"
+                      value={formData.expectedResult}
+                      onChange={(e) => setFormData({...formData, expectedResult: e.target.value})}
+                      className="col-span-3"
+                      placeholder="What should happen"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="actualResult" className="text-right">Actual Result</Label>
+                    <Textarea
+                      id="actualResult"
+                      value={formData.actualResult}
+                      onChange={(e) => setFormData({...formData, actualResult: e.target.value})}
+                      className="col-span-3"
+                      placeholder="What actually happens"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="assignee" className="text-right">Assign To</Label>
+                    <Select value={formData.assignee} onValueChange={(value) => setFormData({...formData, assignee: value})}>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="John Doe">John Doe</SelectItem>
+                        <SelectItem value="Jane Smith">Jane Smith</SelectItem>
+                        <SelectItem value="Mike Johnson">Mike Johnson</SelectItem>
+                        <SelectItem value="Alex Brown">Alex Brown</SelectItem>
+                        <SelectItem value="Sarah Wilson">Sarah Wilson</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCreateBug}>
+                    Create Bug Report
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </header>
           
           <main className="flex-1 p-6 space-y-6">
@@ -292,8 +589,9 @@ const BugReportsPage = () => {
                               <MessageSquare className="w-3 h-3" />
                               <span>{bug.comments} comments</span>
                             </div>
-                            <div className="text-muted-foreground">
-                              {bug.attachments} attachments
+                            <div className="flex items-center gap-1 text-muted-foreground">
+                              <Paperclip className="w-3 h-3" />
+                              <span>{bug.attachments} attachments</span>
                             </div>
                           </div>
                         </TableCell>
@@ -303,6 +601,7 @@ const BugReportsPage = () => {
                               size="sm" 
                               variant="outline"
                               className="hover:scale-105 transition-transform duration-200"
+                              onClick={() => openViewDialog(bug)}
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -310,6 +609,7 @@ const BugReportsPage = () => {
                               size="sm" 
                               variant="outline"
                               className="hover:scale-105 transition-transform duration-200"
+                              onClick={() => openEditDialog(bug)}
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -317,6 +617,7 @@ const BugReportsPage = () => {
                               size="sm" 
                               variant="outline"
                               className="hover:scale-105 transition-transform duration-200 text-red-600 hover:text-red-700"
+                              onClick={() => handleDeleteBug(bug.id)}
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
@@ -328,6 +629,233 @@ const BugReportsPage = () => {
                 </Table>
               </CardContent>
             </Card>
+
+            {/* Edit Dialog */}
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Edit Bug Report</DialogTitle>
+                  <DialogDescription>
+                    Update the bug report details.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-title" className="text-right">Title</Label>
+                    <Input
+                      id="edit-title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({...formData, title: e.target.value})}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-description" className="text-right">Description</Label>
+                    <Textarea
+                      id="edit-description"
+                      value={formData.description}
+                      onChange={(e) => setFormData({...formData, description: e.target.value})}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="edit-severity" className="text-right">Severity</Label>
+                      <Select value={formData.severity} onValueChange={(value) => setFormData({...formData, severity: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Low">Low</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="High">High</SelectItem>
+                          <SelectItem value="Critical">Critical</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="edit-priority" className="text-right">Priority</Label>
+                      <Select value={formData.priority} onValueChange={(value) => setFormData({...formData, priority: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Low">Low</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="High">High</SelectItem>
+                          <SelectItem value="Critical">Critical</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="edit-environment" className="text-right">Environment</Label>
+                      <Select value={formData.environment} onValueChange={(value) => setFormData({...formData, environment: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Development">Development</SelectItem>
+                          <SelectItem value="Staging">Staging</SelectItem>
+                          <SelectItem value="Production">Production</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="edit-browser" className="text-right">Browser</Label>
+                      <Select value={formData.browser} onValueChange={(value) => setFormData({...formData, browser: value})}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Chrome">Chrome</SelectItem>
+                          <SelectItem value="Firefox">Firefox</SelectItem>
+                          <SelectItem value="Safari">Safari</SelectItem>
+                          <SelectItem value="Edge">Edge</SelectItem>
+                          <SelectItem value="Mobile Chrome">Mobile Chrome</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-assignee" className="text-right">Assign To</Label>
+                    <Select value={formData.assignee} onValueChange={(value) => setFormData({...formData, assignee: value})}>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="John Doe">John Doe</SelectItem>
+                        <SelectItem value="Jane Smith">Jane Smith</SelectItem>
+                        <SelectItem value="Mike Johnson">Mike Johnson</SelectItem>
+                        <SelectItem value="Alex Brown">Alex Brown</SelectItem>
+                        <SelectItem value="Sarah Wilson">Sarah Wilson</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleEditBug}>
+                    Update Bug Report
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* View Dialog */}
+            <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+              <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <Bug className="w-5 h-5" />
+                    {selectedBug?.title}
+                  </DialogTitle>
+                  <DialogDescription>
+                    Detailed view of the bug report
+                  </DialogDescription>
+                </DialogHeader>
+                {selectedBug && (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-medium mb-3">Bug Information</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Status:</span>
+                            <Badge className={getStatusColor(selectedBug.status)}>
+                              {selectedBug.status}
+                            </Badge>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Severity:</span>
+                            <Badge className={getSeverityColor(selectedBug.severity)}>
+                              {selectedBug.severity}
+                            </Badge>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Priority:</span>
+                            <Badge className={getSeverityColor(selectedBug.priority)}>
+                              {selectedBug.priority}
+                            </Badge>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Environment:</span>
+                            <span>{selectedBug.environment}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Browser:</span>
+                            <span>{selectedBug.browser}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-3">Assignment & Timeline</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Reporter:</span>
+                            <span>{selectedBug.reporter}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Assignee:</span>
+                            <span>{selectedBug.assignee}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Reported Date:</span>
+                            <span>{selectedBug.reportedDate}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Comments:</span>
+                            <span>{selectedBug.comments}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Attachments:</span>
+                            <span>{selectedBug.attachments}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-medium mb-2">Description</h4>
+                      <p className="text-sm text-muted-foreground bg-accent/30 p-4 rounded-lg">
+                        {selectedBug.description}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium mb-2">Steps to Reproduce</h4>
+                      <div className="text-sm bg-accent/30 p-4 rounded-lg">
+                        <pre className="whitespace-pre-wrap text-muted-foreground">
+                          {selectedBug.stepsToReproduce}
+                        </pre>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium mb-2">Expected Result</h4>
+                        <div className="text-sm bg-green-50 p-4 rounded-lg border border-green-200">
+                          <pre className="whitespace-pre-wrap text-green-800">
+                            {selectedBug.expectedResult}
+                          </pre>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Actual Result</h4>
+                        <div className="text-sm bg-red-50 p-4 rounded-lg border border-red-200">
+                          <pre className="whitespace-pre-wrap text-red-800">
+                            {selectedBug.actualResult}
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
           </main>
         </SidebarInset>
       </SidebarProvider>
