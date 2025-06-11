@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FlowChart } from "lucide-react";
+import { Menu, X, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -185,7 +186,7 @@ const Navbar = () => {
                     className="text-foreground hover:bg-accent"
                     title="View System Flow Diagram"
                   >
-                    <FlowChart className="h-5 w-5" />
+                    <Workflow className="h-5 w-5" />
                   </Button>
                 </Link>
                 <ThemeToggle />
@@ -225,7 +226,7 @@ const Navbar = () => {
                   className="text-foreground hover:bg-accent"
                   title="View System Flow Diagram"
                 >
-                  <FlowChart className="h-5 w-5" />
+                  <Workflow className="h-5 w-5" />
                 </Button>
               </Link>
               <ThemeToggle />
@@ -282,7 +283,7 @@ const Navbar = () => {
                       className="text-xl text-foreground border-b border-border pb-2 flex items-center space-x-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <FlowChart className="h-5 w-5" />
+                      <Workflow className="h-5 w-5" />
                       <span>System Flow</span>
                     </Link>
                   </motion.div>
