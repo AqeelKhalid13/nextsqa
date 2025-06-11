@@ -20,7 +20,7 @@ const StartTestingPage = () => {
     testType: '',
     browsers: [] as string[],
     testDuration: '30',
-    description: '',
+    environment: '',
     notifications: true,
     autoRetry: false,
     parallelExecution: true,
@@ -179,6 +179,14 @@ const StartTestingPage = () => {
     }));
   };
 
+  const environments = [
+    { value: 'production', label: 'Production' },
+    { value: 'staging', label: 'Staging' },
+    { value: 'development', label: 'Development' },
+    { value: 'testing', label: 'Testing' },
+    { value: 'local', label: 'Local' }
+  ];
+
   return (
     <div className="min-h-screen flex w-full bg-background">
       <SidebarProvider>
@@ -187,15 +195,15 @@ const StartTestingPage = () => {
           <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border px-4">
             <SidebarTrigger className="text-foreground" />
             <div className="flex-1">
-              <h1 className="text-xl font-semibold text-foreground">Start Testing</h1>
-              <p className="text-sm text-muted-foreground">Begin your automated testing process</p>
+              <h1 className="text-xl font-semibold text-foreground">AI Testing</h1>
+              <p className="text-sm text-muted-foreground">Begin your automated AI testing process</p>
             </div>
           </header>
           
           <main className="flex-1 p-6">
-            <div className={`grid gap-6 ${isRunning ? 'grid-cols-2' : 'grid-cols-1'}`}>
+            <div className={`grid gap-6 ${isRunning ? 'grid-cols-3' : 'grid-cols-1'}`}>
               {/* Configuration Panel */}
-              <div className="space-y-6">
+              <div className={`space-y-6 ${isRunning ? 'col-span-1' : 'col-span-1'}`}>
                 <Card className="border-border hover:shadow-lg transition-shadow duration-300">
                   <CardHeader>
                     <CardTitle className="text-foreground flex items-center gap-2">
@@ -278,15 +286,23 @@ const StartTestingPage = () => {
                         </div>
 
                         <div className="grid gap-2">
-                          <Label htmlFor="description">Test Description</Label>
-                          <Textarea
-                            id="description"
-                            placeholder="Describe what you want to test..."
-                            value={testConfig.description}
-                            onChange={(e) => setTestConfig(prev => ({ ...prev, description: e.target.value }))}
-                            className="hover:border-primary/50 transition-colors duration-200"
+                          <Label htmlFor="environment">Environment</Label>
+                          <Select 
+                            value={testConfig.environment} 
+                            onValueChange={(value) => setTestConfig(prev => ({ ...prev, environment: value }))}
                             disabled={isRunning}
-                          />
+                          >
+                            <SelectTrigger className="hover:border-primary/50 transition-colors duration-200">
+                              <SelectValue placeholder="Select environment" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {environments.map(env => (
+                                <SelectItem key={env.value} value={env.value}>
+                                  {env.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
 
@@ -425,9 +441,9 @@ const StartTestingPage = () => {
                 )}
               </div>
 
-              {/* Live Browser Preview Panel - Only show when running */}
+              {/* Live Browser Preview Panel - Only show when running - Takes 2/3 of screen */}
               {isRunning && (
-                <div className="space-y-6">
+                <div className="space-y-6 col-span-2">
                   {/* Browser Window */}
                   <Card className="border-border">
                     <CardHeader>
@@ -453,7 +469,7 @@ const StartTestingPage = () => {
                           </div>
                         </div>
                         {/* Browser Content */}
-                        <div className="bg-white dark:bg-gray-900 rounded-b-lg p-6 min-h-64 flex items-center justify-center">
+                        <div className="bg-white dark:bg-gray-900 rounded-b-lg p-6 min-h-96 flex items-center justify-center">
                           <div className="text-center">
                             <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                               <Globe className="w-8 h-8 text-primary" />
