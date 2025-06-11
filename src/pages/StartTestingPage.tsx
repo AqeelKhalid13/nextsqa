@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -12,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { Play, Globe, TestTube, Settings, Clock, Target, Zap, Pause, Square, CheckCircle } from 'lucide-react';
+import { Play, Globe, TestTube, Settings, Clock, Target, Zap, Pause, Square, CheckCircle, Monitor, Camera } from 'lucide-react';
 
 const StartTestingPage = () => {
   const navigate = useNavigate();
@@ -24,41 +23,54 @@ const StartTestingPage = () => {
     description: '',
     notifications: true,
     autoRetry: false,
-    parallelExecution: true
+    parallelExecution: true,
+    testInstructions: ''
   });
   const [isRunning, setIsRunning] = useState(false);
   const [testProgress, setTestProgress] = useState(0);
   const [currentTest, setCurrentTest] = useState('');
   const [testLogs, setTestLogs] = useState<string[]>([]);
+  const [screenshots, setScreenshots] = useState<{step: string, url: string, timestamp: string}[]>([]);
+  const [browserView, setBrowserView] = useState('');
 
   const handleStartTest = () => {
     setIsRunning(true);
     setTestProgress(0);
     setTestLogs(['Test execution started...']);
+    setScreenshots([]);
+    setBrowserView(testConfig.url);
     console.log('Starting test with config:', testConfig);
     
-    // Simulate test execution progress with realistic steps
-    const testSteps = [
-      'Initializing test environment...',
-      'Loading target website...',
-      'Setting up browser configurations...',
-      'Starting UI element validation...',
-      'Checking responsive design...',
-      'Testing user interactions...',
-      'Validating form submissions...',
-      'Checking accessibility compliance...',
-      'Running performance tests...',
-      'Generating test report...',
-      'Test execution completed!'
-    ];
+    // Simulate test execution with user instructions
+    const testSteps = testConfig.testInstructions ? 
+      testConfig.testInstructions.split('\n').filter(step => step.trim()) :
+      [
+        'Loading target website...',
+        'Checking page responsiveness...',
+        'Testing navigation elements...',
+        'Validating form inputs...',
+        'Running accessibility checks...',
+        'Capturing final screenshot...'
+      ];
 
     let currentStep = 0;
     const progressInterval = setInterval(() => {
       setTestProgress(prev => {
-        const newProgress = prev + Math.random() * 12 + 3;
+        const increment = 100 / testSteps.length;
+        const newProgress = Math.min(prev + increment, 100);
+        
         if (currentStep < testSteps.length) {
-          setCurrentTest(testSteps[currentStep]);
-          setTestLogs(prevLogs => [...prevLogs, testSteps[currentStep]]);
+          const step = testSteps[currentStep];
+          setCurrentTest(step);
+          setTestLogs(prevLogs => [...prevLogs, `[${new Date().toLocaleTimeString()}] ${step}`]);
+          
+          // Simulate screenshot capture
+          setScreenshots(prevShots => [...prevShots, {
+            step: step,
+            url: `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPiR7c3RlcH08L3RleHQ+PC9zdmc+`,
+            timestamp: new Date().toLocaleTimeString()
+          }]);
+          
           currentStep++;
         }
         
@@ -67,7 +79,21 @@ const StartTestingPage = () => {
           setIsRunning(false);
           setTestProgress(100);
           setCurrentTest('Test completed successfully!');
-          // Redirect to reports page after 2 seconds
+          setTestLogs(prevLogs => [...prevLogs, `[${new Date().toLocaleTimeString()}] Test execution completed successfully!`]);
+          
+          // Store test results for reports page
+          const testResults = {
+            id: Date.now(),
+            name: `Test - ${testConfig.url}`,
+            logs: testLogs,
+            screenshots: screenshots,
+            config: testConfig,
+            completedAt: new Date().toISOString()
+          };
+          
+          const existingResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+          localStorage.setItem('testResults', JSON.stringify([testResults, ...existingResults]));
+          
           setTimeout(() => {
             navigate('/reports');
           }, 2000);
@@ -75,7 +101,7 @@ const StartTestingPage = () => {
         }
         return newProgress;
       });
-    }, 800);
+    }, 1500);
   };
 
   const handlePauseTest = () => {
@@ -88,6 +114,8 @@ const StartTestingPage = () => {
     setTestProgress(0);
     setCurrentTest('');
     setTestLogs(['Test execution stopped']);
+    setScreenshots([]);
+    setBrowserView('');
   };
 
   const testInstructions = [
@@ -215,6 +243,18 @@ const StartTestingPage = () => {
                               ))}
                             </SelectContent>
                           </Select>
+                        </div>
+
+                        <div className="grid gap-2">
+                          <Label htmlFor="instructions">Test Instructions</Label>
+                          <Textarea
+                            id="instructions"
+                            placeholder="Enter step-by-step instructions for the test (one step per line)..."
+                            value={testConfig.testInstructions}
+                            onChange={(e) => setTestConfig(prev => ({ ...prev, testInstructions: e.target.value }))}
+                            className="hover:border-primary/50 transition-colors duration-200 min-h-20"
+                            disabled={isRunning}
+                          />
                         </div>
 
                         <div className="grid gap-2">
@@ -385,81 +425,108 @@ const StartTestingPage = () => {
                 )}
               </div>
 
-              {/* Live Preview Panel - Only show when running */}
+              {/* Live Browser Preview Panel - Only show when running */}
               {isRunning && (
                 <div className="space-y-6">
+                  {/* Browser Window */}
+                  <Card className="border-border">
+                    <CardHeader>
+                      <CardTitle className="text-foreground flex items-center gap-2">
+                        <Monitor className="w-5 h-5 text-blue-500" />
+                        Live Browser Preview
+                      </CardTitle>
+                      <CardDescription className="text-muted-foreground">
+                        Simulated browser window showing test execution
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+                        {/* Browser UI */}
+                        <div className="bg-gray-200 dark:bg-gray-700 rounded-t-lg px-4 py-2 flex items-center gap-2">
+                          <div className="flex gap-1">
+                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                          </div>
+                          <div className="flex-1 bg-white dark:bg-gray-600 rounded px-3 py-1 text-sm">
+                            {browserView}
+                          </div>
+                        </div>
+                        {/* Browser Content */}
+                        <div className="bg-white dark:bg-gray-900 rounded-b-lg p-6 min-h-64 flex items-center justify-center">
+                          <div className="text-center">
+                            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                              <Globe className="w-8 h-8 text-primary" />
+                            </div>
+                            <p className="text-foreground font-medium">{currentTest || 'Initializing browser...'}</p>
+                            <p className="text-sm text-muted-foreground mt-2">Testing: {testConfig.url}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Test Progress */}
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle className="text-foreground flex items-center gap-2">
                         <Clock className="w-5 h-5 text-blue-500" />
-                        Live Test Execution
+                        Test Progress
                       </CardTitle>
-                      <CardDescription className="text-muted-foreground">
-                        Real-time testing progress and results
-                      </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="space-y-4">
+                    <CardContent className="space-y-4">
+                      <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium">Overall Progress</span>
                           <span className="text-sm text-muted-foreground">{Math.round(testProgress)}%</span>
                         </div>
-                        <Progress value={testProgress} className="h-3" />
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                          <span className="text-sm font-medium">Current Test:</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground bg-accent/50 p-3 rounded-lg">
-                          {currentTest || 'Initializing...'}
-                        </p>
+                        <Progress value={testProgress} className="h-2" />
                       </div>
 
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <p className="text-muted-foreground">Target URL</p>
-                          <p className="font-medium truncate">{testConfig.url}</p>
+                          <p className="text-muted-foreground">Screenshots Captured</p>
+                          <p className="font-medium">{screenshots.length}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">Test Type</p>
-                          <p className="font-medium">{testConfig.testType}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Browsers</p>
-                          <p className="font-medium">{testConfig.browsers.length || 'Default'}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Status</p>
+                          <p className="text-muted-foreground">Test Status</p>
                           <p className="font-medium text-blue-600">Running</p>
                         </div>
                       </div>
 
                       {testProgress === 100 && (
-                        <div className="flex items-center gap-2 p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div className="flex items-center gap-2 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                           <CheckCircle className="w-5 h-5 text-green-600" />
                           <div>
-                            <p className="font-medium text-green-800">Test Completed Successfully!</p>
-                            <p className="text-sm text-green-600">Redirecting to reports page...</p>
+                            <p className="font-medium text-green-800 dark:text-green-200">Test Completed Successfully!</p>
+                            <p className="text-sm text-green-600 dark:text-green-300">Redirecting to reports page...</p>
                           </div>
                         </div>
                       )}
                     </CardContent>
                   </Card>
 
+                  {/* Live Screenshots */}
                   <Card className="border-border">
                     <CardHeader>
-                      <CardTitle className="text-foreground">Test Logs</CardTitle>
-                      <CardDescription className="text-muted-foreground">
-                        Real-time execution logs
-                      </CardDescription>
+                      <CardTitle className="text-foreground flex items-center gap-2">
+                        <Camera className="w-5 h-5" />
+                        Live Screenshots
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-2 max-h-64 overflow-y-auto bg-accent/30 p-4 rounded-lg">
-                        {testLogs.map((log, index) => (
-                          <div key={index} className="text-sm font-mono">
-                            <span className="text-muted-foreground">[{new Date().toLocaleTimeString()}]</span> {log}
+                      <div className="space-y-3 max-h-64 overflow-y-auto">
+                        {screenshots.map((screenshot, index) => (
+                          <div key={index} className="flex items-center gap-3 p-3 bg-accent/30 rounded-lg">
+                            <img 
+                              src={screenshot.url} 
+                              alt={screenshot.step}
+                              className="w-16 h-12 rounded object-cover"
+                            />
+                            <div className="flex-1">
+                              <p className="text-sm font-medium">{screenshot.step}</p>
+                              <p className="text-xs text-muted-foreground">{screenshot.timestamp}</p>
+                            </div>
                           </div>
                         ))}
                       </div>

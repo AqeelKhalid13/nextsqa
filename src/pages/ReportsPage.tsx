@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/dashboard/AppSidebar';
 import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
@@ -10,7 +9,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Download, FileText, Calendar, Share2, Search, Filter, Plus, Eye, Trash2, RefreshCw } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Download, FileText, Calendar, Share2, Search, Filter, Plus, Eye, Trash2, RefreshCw, Camera, Clock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
 
@@ -28,7 +29,20 @@ const ReportsPage = () => {
       description: 'Comprehensive weekly testing summary with metrics and insights',
       author: 'John Doe',
       downloads: 45,
-      shared: true
+      shared: true,
+      logs: [
+        '[10:00:00] Test execution started...',
+        '[10:00:05] Loading target website...',
+        '[10:00:10] Checking page responsiveness...',
+        '[10:00:15] Testing navigation elements...',
+        '[10:00:20] Validating form inputs...',
+        '[10:00:25] Running accessibility checks...',
+        '[10:00:30] Test execution completed successfully!'
+      ],
+      screenshots: [
+        { step: 'Loading target website...', url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmcgdGFyZ2V0IHdlYnNpdGUuLi48L3RleHQ+PC9zdmc+', timestamp: '10:00:05' },
+        { step: 'Testing navigation elements...', url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTBmMmZlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5hdmlnYXRpb24gdGVzdGluZzwvdGV4dD48L3N2Zz4=', timestamp: '10:00:15' }
+      ]
     },
     {
       id: 2,
@@ -41,36 +55,19 @@ const ReportsPage = () => {
       description: 'Detailed analysis of bug patterns and resolution times',
       author: 'Sarah Wilson',
       downloads: 23,
-      shared: false
-    },
-    {
-      id: 3,
-      name: 'Test Coverage Report',
-      type: 'Coverage',
-      generatedDate: '2024-01-13',
-      status: 'Generating',
-      format: 'PDF',
-      size: '-',
-      description: 'Code coverage analysis for all test suites',
-      author: 'Mike Chen',
-      downloads: 0,
-      shared: false
-    },
-    {
-      id: 4,
-      name: 'Performance Metrics',
-      type: 'Performance',
-      generatedDate: '2024-01-12',
-      status: 'Ready',
-      format: 'CSV',
-      size: '856 KB',
-      description: 'Performance benchmarks and load testing results',
-      author: 'Emily Brown',
-      downloads: 67,
-      shared: true
+      shared: false,
+      logs: [
+        '[09:30:00] Bug analysis started...',
+        '[09:30:10] Scanning codebase for issues...',
+        '[09:30:20] Analyzing bug patterns...',
+        '[09:30:30] Generating analysis report...',
+        '[09:30:40] Analysis completed successfully!'
+      ],
+      screenshots: []
     }
   ]);
 
+  const [testResults, setTestResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -78,6 +75,35 @@ const ReportsPage = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+
+  // Load test results from localStorage
+  useEffect(() => {
+    const storedResults = JSON.parse(localStorage.getItem('testResults') || '[]');
+    setTestResults(storedResults);
+    
+    // Add test results to reports if they don't exist
+    const newReports = storedResults.map(result => ({
+      id: result.id,
+      name: result.name,
+      type: 'Test Execution',
+      generatedDate: new Date(result.completedAt).toISOString().split('T')[0],
+      status: 'Ready',
+      format: 'HTML',
+      size: '1.2 MB',
+      description: result.config.description || 'Automated test execution',
+      author: 'Current User',
+      downloads: 0,
+      shared: false,
+      logs: result.logs || [],
+      screenshots: result.screenshots || []
+    }));
+    
+    setReports(prev => {
+      const existingIds = prev.map(r => r.id);
+      const filteredNew = newReports.filter(nr => !existingIds.includes(nr.id));
+      return [...prev, ...filteredNew];
+    });
+  }, []);
 
   const form = useForm({
     defaultValues: {
@@ -107,7 +133,9 @@ const ReportsPage = () => {
       size: '-',
       author: 'Current User',
       downloads: 0,
-      shared: false
+      shared: false,
+      logs: [],
+      screenshots: []
     };
     
     setReports([newReport, ...reports]);
@@ -498,46 +526,124 @@ const ReportsPage = () => {
         </SidebarInset>
       </SidebarProvider>
 
-      {/* View Details Dialog */}
+      {/* Enhanced View Details Dialog with Logs and Screenshots */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-5xl max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle>{selectedReport?.name}</DialogTitle>
-            <DialogDescription>Report Details and Information</DialogDescription>
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              {selectedReport?.name}
+            </DialogTitle>
+            <DialogDescription>Detailed test execution logs and screenshots</DialogDescription>
           </DialogHeader>
           {selectedReport && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="font-medium">Type</h4>
-                  <p className="text-muted-foreground">{selectedReport.type}</p>
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="logs">
+                  <Clock className="w-4 h-4 mr-2" />
+                  Execution Logs
+                </TabsTrigger>
+                <TabsTrigger value="screenshots">
+                  <Camera className="w-4 h-4 mr-2" />
+                  Screenshots
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="overview" className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium">Type</h4>
+                    <p className="text-muted-foreground">{selectedReport.type}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Status</h4>
+                    <Badge variant={getStatusColor(selectedReport.status)}>{selectedReport.status}</Badge>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Format</h4>
+                    <p className="text-muted-foreground">{selectedReport.format}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Size</h4>
+                    <p className="text-muted-foreground">{selectedReport.size}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Author</h4>
+                    <p className="text-muted-foreground">{selectedReport.author}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Downloads</h4>
+                    <p className="text-muted-foreground">{selectedReport.downloads}</p>
+                  </div>
                 </div>
                 <div>
-                  <h4 className="font-medium">Status</h4>
-                  <Badge variant={getStatusColor(selectedReport.status)}>{selectedReport.status}</Badge>
+                  <h4 className="font-medium">Description</h4>
+                  <p className="text-muted-foreground">{selectedReport.description}</p>
                 </div>
-                <div>
-                  <h4 className="font-medium">Format</h4>
-                  <p className="text-muted-foreground">{selectedReport.format}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Size</h4>
-                  <p className="text-muted-foreground">{selectedReport.size}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Author</h4>
-                  <p className="text-muted-foreground">{selectedReport.author}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Downloads</h4>
-                  <p className="text-muted-foreground">{selectedReport.downloads}</p>
-                </div>
-              </div>
-              <div>
-                <h4 className="font-medium">Description</h4>
-                <p className="text-muted-foreground">{selectedReport.description}</p>
-              </div>
-            </div>
+              </TabsContent>
+              
+              <TabsContent value="logs" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Test Execution Logs</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ScrollArea className="h-96 w-full rounded border p-4">
+                      <div className="space-y-1">
+                        {selectedReport.logs && selectedReport.logs.length > 0 ? (
+                          selectedReport.logs.map((log, index) => (
+                            <div key={index} className="font-mono text-sm">
+                              <span className="text-muted-foreground">{log}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-muted-foreground text-center py-8">No logs available for this report</p>
+                        )}
+                      </div>
+                    </ScrollArea>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="screenshots" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Test Screenshots</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ScrollArea className="h-96 w-full">
+                      {selectedReport.screenshots && selectedReport.screenshots.length > 0 ? (
+                        <div className="space-y-4">
+                          {selectedReport.screenshots.map((screenshot, index) => (
+                            <div key={index} className="border rounded-lg p-4">
+                              <div className="flex items-start gap-4">
+                                <img 
+                                  src={screenshot.url} 
+                                  alt={screenshot.step}
+                                  className="w-48 h-32 rounded border object-cover flex-shrink-0"
+                                />
+                                <div className="flex-1">
+                                  <h4 className="font-medium text-foreground mb-2">{screenshot.step}</h4>
+                                  <p className="text-sm text-muted-foreground mb-1">
+                                    <span className="font-medium">Timestamp:</span> {screenshot.timestamp}
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    <span className="font-medium">Step:</span> {index + 1} of {selectedReport.screenshots.length}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-muted-foreground text-center py-8">No screenshots available for this report</p>
+                      )}
+                    </ScrollArea>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           )}
         </DialogContent>
       </Dialog>
