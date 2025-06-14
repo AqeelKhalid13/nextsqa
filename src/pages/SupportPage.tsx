@@ -7,6 +7,7 @@ import ContactAIAnimation from '@/components/animations/ContactAIAnimation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { motion } from 'framer-motion';
 import { 
   HelpCircle, 
@@ -69,13 +70,31 @@ const SupportPage = () => {
     }
   ];
 
-  const commonIssues = [
-    "Getting started with your first test",
-    "Setting up CI/CD integrations",
-    "Understanding test results",
-    "Configuring browser settings",
-    "Managing team permissions",
-    "Billing and subscription questions"
+  const commonQuestions = [
+    {
+      question: "Getting started with your first test",
+      answer: "To get started with NextSQA, simply sign up for an account, verify your email, and follow our quick setup guide. You can run your first automated test within 5 minutes by entering your website URL and describing what you want to test in plain English."
+    },
+    {
+      question: "Setting up CI/CD integrations",
+      answer: "NextSQA integrates seamlessly with popular CI/CD platforms like GitHub Actions, GitLab CI, Jenkins, and Azure DevOps. Use our pre-built plugins or REST API to trigger tests automatically on code commits, pull requests, or scheduled intervals."
+    },
+    {
+      question: "Understanding test results",
+      answer: "Test results include detailed reports with screenshots, performance metrics, and identified issues. Each result shows pass/fail status, execution time, browser compatibility, and actionable recommendations for fixing any detected problems."
+    },
+    {
+      question: "Configuring browser settings",
+      answer: "You can configure browser settings including viewport sizes, user agents, geolocation, and device emulation. NextSQA supports testing across Chrome, Firefox, Safari, and Edge with customizable settings for each browser environment."
+    },
+    {
+      question: "Managing team permissions",
+      answer: "Team management allows you to invite members with different permission levels: Admin (full access), Editor (create/edit tests), and Viewer (read-only). You can also set up team-specific projects and control access to sensitive test data."
+    },
+    {
+      question: "Billing and subscription questions",
+      answer: "We offer flexible pricing plans including a free tier for small projects. Billing is monthly or annual, with options to upgrade/downgrade anytime. Enterprise plans include custom features, dedicated support, and volume discounts."
+    }
   ];
 
   return (
@@ -264,7 +283,7 @@ const SupportPage = () => {
           </div>
         </section>
 
-        {/* Common Issues */}
+        {/* Common Questions */}
         <section className="py-16 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto">
@@ -283,29 +302,32 @@ const SupportPage = () => {
                 </p>
               </motion.div>
 
-              <div className="grid gap-4">
-                {commonIssues.map((issue, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <Card className="border-border hover:shadow-md transition-all duration-300 hover:scale-105 group cursor-pointer">
-                      <CardContent className="p-4 md:p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm md:text-base text-foreground">{issue}</span>
-                          </div>
-                          <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                  {commonQuestions.map((item, index) => (
+                    <AccordionItem 
+                      key={index} 
+                      value={`item-${index}`}
+                      className="bg-background rounded-lg border border-border px-6 overflow-hidden"
+                    >
+                      <AccordionTrigger className="text-left text-base font-medium py-4 hover:text-primary transition-colors">
+                        <div className="flex items-center gap-3">
+                          <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                          <span>{item.question}</span>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-4 text-muted-foreground leading-relaxed">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </motion.div>
             </div>
           </div>
         </section>
