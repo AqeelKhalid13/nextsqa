@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -13,7 +12,7 @@ import {
   Share2, 
   Github, 
   Twitter, 
-  Discord,
+  MessageCircle,
   Calendar,
   Trophy,
   Zap,
@@ -36,7 +35,7 @@ const CommunityPage = () => {
 
   const communityChannels = [
     {
-      icon: Discord,
+      icon: MessageCircle,
       title: "Discord Server",
       description: "Real-time chat with fellow developers and our team",
       members: "8,500+ members",
@@ -374,7 +373,7 @@ const CommunityPage = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                  <Discord className="w-4 h-4" />
+                  <MessageCircle className="w-4 h-4" />
                   Join Discord
                 </Button>
                 <Button variant="outline" className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
