@@ -30,6 +30,7 @@ import SettingsPage from "./pages/SettingsPage";
 import FlowDiagramPage from "./pages/FlowDiagramPage";
 import SupportPage from "./pages/SupportPage";
 import CommunityPage from "./pages/CommunityPage";
+import PricingPage from "./pages/PricingPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/blogs/:id" element={<BlogDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/start-testing" element={<StartTestingPage />} />
             <Route path="/test-cases" element={<TestCasesPage />} />

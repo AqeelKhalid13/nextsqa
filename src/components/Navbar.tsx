@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -116,7 +115,7 @@ const Navbar = () => {
     { name: "Use Cases", url: "/use-cases" },
     { name: "About", url: "/about" },
     { name: "Blogs", url: "/blogs" },
-    { name: "Pricing", url: "#pricing" }
+    { name: "Pricing", url: "/pricing" }
   ];
 
   return (
@@ -149,29 +148,18 @@ const Navbar = () => {
               <motion.nav variants={itemVariants} className="hidden md:flex items-center space-x-8">
                 {navLinks.map((link) => (
                   <motion.div key={link.name}>
-                    {link.url.startsWith('#') ? (
-                      <motion.a 
-                        href={link.url}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
+                    <Link 
+                      to={link.url}
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <motion.span
                         whileHover={{ y: -2 }}
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                        className="block"
                       >
                         {link.name}
-                      </motion.a>
-                    ) : (
-                      <Link 
-                        to={link.url}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        <motion.span
-                          whileHover={{ y: -2 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                          className="block"
-                        >
-                          {link.name}
-                        </motion.span>
-                      </Link>
-                    )}
+                      </motion.span>
+                    </Link>
                   </motion.div>
                 ))}
               </motion.nav>
@@ -258,23 +246,13 @@ const Navbar = () => {
                 <nav className="flex flex-col space-y-6">
                   {navLinks.map((link) => (
                     <motion.div key={link.name} variants={mobileItemVariants}>
-                      {link.url.startsWith('#') ? (
-                        <a 
-                          href={link.url}
-                          className="text-xl text-foreground border-b border-border pb-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {link.name}
-                        </a>
-                      ) : (
-                        <Link 
-                          to={link.url}
-                          className="text-xl text-foreground border-b border-border pb-2"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {link.name}
-                        </Link>
-                      )}
+                      <Link 
+                        to={link.url}
+                        className="text-xl text-foreground border-b border-border pb-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
                     </motion.div>
                   ))}
                   
