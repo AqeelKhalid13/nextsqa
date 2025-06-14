@@ -96,35 +96,47 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Who We Are & Our Mission Combined Section */}
+        {/* Who We Are & Our Mission Section */}
         <section className="py-20">
           <div className="container mx-auto px-6 md:px-10">
-            <div className="max-w-4xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-center mb-16"
-              >
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                  Who We Are & Our Mission
-                </h2>
-                <div className="space-y-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12">
+                {/* Who We Are */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                    Who We Are
+                  </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
                     At NextSQA, we're redefining how modern software teams approach quality assurance. 
                     Our platform harnesses the power of AI-driven automation to make testing faster, 
                     smarter, and more reliable. Whether you're a startup building your MVP or an 
                     enterprise scaling operations, we help you test confidently and release faster.
                   </p>
+                </motion.div>
+
+                {/* Our Mission */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                    Our Mission
+                  </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
                     We believe that software testing should enable innovation—not slow it down. 
                     That's why we built NextSQA: to deliver intelligent, developer-friendly testing 
                     solutions that integrate effortlessly into your existing workflows. Our goal is 
                     to empower teams to find bugs early, reduce manual effort, and ship with confidence.
                   </p>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -180,38 +192,53 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Our Story & Mission Combined Section */}
+        {/* Our Story & Our Mission Section */}
         <section className="py-20">
           <div className="container mx-auto px-6 md:px-10">
-            <div className="max-w-4xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="w-8 h-8 text-primary" />
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                  Our Story & Mission
-                </h2>
-                <div className="space-y-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12">
+                {/* Our Story */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+                    <Users className="w-8 h-8 text-primary" />
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                    Our Story
+                  </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
                     NextSQA was born out of a simple realization: manual testing can't keep up with 
                     modern development cycles. Our founders—developers and QA experts themselves—set 
                     out to build a smarter way. Today, we help teams of all sizes automate, optimize, 
                     and scale their testing like never before.
                   </p>
+                </motion.div>
+
+                {/* Our Mission */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+                    <Target className="w-8 h-8 text-primary" />
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+                    Our Mission
+                  </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
                     We believe that software testing should enable innovation—not slow it down. 
                     That's why we built NextSQA: to deliver intelligent, developer-friendly testing 
                     solutions that integrate effortlessly into your existing workflows. Our goal is 
                     to empower teams to find bugs early, reduce manual effort, and ship with confidence.
                   </p>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
