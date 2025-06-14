@@ -243,59 +243,104 @@ const PricingPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-secondary/30">
+      <section className="py-16 md:py-20 bg-muted/30">
         <div className="container mx-auto px-6 md:px-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
+            className="text-center mb-12 md:mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-foreground">
               Frequently Asked Questions
             </h2>
-            <div className="grid md:grid-cols-2 gap-8 text-left">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <h3 className="font-semibold mb-2">Can I change plans anytime?</h3>
-                <p className="text-muted-foreground text-sm">Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <h3 className="font-semibold mb-2">Is there a free trial?</h3>
-                <p className="text-muted-foreground text-sm">Yes, we offer a 14-day free trial for all plans. No credit card required.</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <h3 className="font-semibold mb-2">What payment methods do you accept?</h3>
-                <p className="text-muted-foreground text-sm">We accept all major credit cards, PayPal, and bank transfers for Enterprise plans.</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <h3 className="font-semibold mb-2">Can I cancel anytime?</h3>
-                <p className="text-muted-foreground text-sm">Yes, you can cancel your subscription at any time. Your plan remains active until the end of the billing period.</p>
-              </motion.div>
-            </div>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Everything you need to know about our pricing and plans
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Accordion type="single" collapsible className="w-full space-y-6">
+                {[
+                  {
+                    question: "Can I change plans anytime?",
+                    answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any billing differences. Your existing data and configurations remain intact during the transition."
+                  },
+                  {
+                    question: "Is there a free trial?",
+                    answer: "Yes, we offer a 14-day free trial for all plans with full access to features. No credit card required to start. You can experience the complete NextSQA platform and see how it transforms your testing workflow."
+                  },
+                  {
+                    question: "What payment methods do you accept?",
+                    answer: "We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for Enterprise plans. All payments are processed securely with industry-standard encryption."
+                  },
+                  {
+                    question: "Can I cancel anytime?",
+                    answer: "Absolutely! You can cancel your subscription at any time without any penalties. Your plan remains active until the end of the current billing period, and you'll retain access to all your data for 30 days after cancellation."
+                  },
+                  {
+                    question: "Do you offer discounts for annual billing?",
+                    answer: "Yes! Save up to 20% when you choose annual billing. This applies to all plans and is automatically applied at checkout. You can also switch to annual billing anytime from your account settings."
+                  },
+                  {
+                    question: "What happens if I exceed my plan limits?",
+                    answer: "We'll notify you when you're approaching your limits. For test executions, you can purchase additional capacity or upgrade your plan. We never interrupt your testing mid-execution - you'll always have time to adjust your plan."
+                  }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                  >
+                    <AccordionItem 
+                      value={`item-${index}`}
+                      className="bg-background rounded-xl border border-border/50 px-6 md:px-8 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+                    >
+                      <AccordionTrigger className="text-left text-lg font-semibold py-6 hover:text-primary transition-colors [&[data-state=open]]:text-primary">
+                        <div className="flex items-center gap-4">
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                          <span>{item.question}</span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-6 text-muted-foreground leading-relaxed text-base">
+                        <div className="ml-6">
+                          {item.answer}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
+                ))}
+              </Accordion>
+            </motion.div>
+          </div>
+
+          {/* Additional CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-12 md:mt-16"
+          >
+            <p className="text-lg text-muted-foreground mb-6">
+              Still have questions? We're here to help!
+            </p>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            >
+              Contact Support
+            </Button>
           </motion.div>
         </div>
       </section>
