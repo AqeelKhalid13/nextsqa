@@ -15,17 +15,6 @@ const ContactAIAnimation = () => {
     }
   };
 
-  const orbitVariants = {
-    animate: {
-      rotate: 360,
-      transition: {
-        duration: 20,
-        repeat: Infinity,
-        ease: "linear"
-      }
-    }
-  };
-
   const pulseVariants = {
     animate: {
       scale: [1, 1.2, 1],
@@ -68,66 +57,6 @@ const ContactAIAnimation = () => {
             ease: "easeInOut"
           }}
         />
-      </motion.div>
-
-      {/* Orbiting Contact Elements */}
-      <motion.div
-        className="absolute inset-0"
-        variants={orbitVariants}
-        animate="animate"
-      >
-        {/* Email Contact Card */}
-        <motion.div
-          className="absolute top-16 left-8 w-48 bg-background/80 backdrop-blur-md rounded-lg border border-border shadow-xl"
-          style={{ transformOrigin: '200px 200px' }}
-          whileHover={{ scale: 1.05 }}
-        >
-          <div className="p-4">
-            <div className="flex items-center mb-3">
-              <Mail className="w-5 h-5 text-primary mr-2" />
-              <span className="text-sm font-medium">Email Us</span>
-            </div>
-            <div className="space-y-2">
-              <div className="h-2 bg-muted rounded w-full"></div>
-              <div className="h-2 bg-muted rounded w-3/4"></div>
-              <div className="h-2 bg-primary/50 rounded w-1/2"></div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Phone Support Card */}
-        <motion.div
-          className="absolute bottom-16 right-8 w-48 bg-background/80 backdrop-blur-md rounded-lg border border-border shadow-xl"
-          style={{ transformOrigin: '-200px -200px' }}
-          whileHover={{ scale: 1.05 }}
-        >
-          <div className="p-4">
-            <div className="flex items-center mb-3">
-              <Phone className="w-5 h-5 text-green-500 mr-2" />
-              <span className="text-sm font-medium">Call Support</span>
-            </div>
-            <div className="space-y-2">
-              <motion.div
-                className="flex items-center text-xs text-green-500"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-              >
-                <Clock className="w-3 h-3 mr-1" />
-                <span>Available now</span>
-              </motion.div>
-              <motion.div
-                className="flex items-center text-xs text-blue-500"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2, duration: 1 }}
-              >
-                <Globe className="w-3 h-3 mr-1" />
-                <span>24/7 Support</span>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Free-floating Contact Icons */}

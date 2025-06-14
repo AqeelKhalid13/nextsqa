@@ -109,9 +109,6 @@ const SupportPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <Badge variant="secondary" className="mb-4 md:mb-6">
-                Support Center
-              </Badge>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-foreground">
                 We're Here to{' '}
                 <span className="text-gradient-primary">Help You Succeed</span>
