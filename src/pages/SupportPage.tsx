@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,14 +13,11 @@ import {
   Mail, 
   Book, 
   Video, 
-  Search,
   Phone,
   Clock,
   CheckCircle,
-  ArrowRight,
   FileText,
   Users,
-  Zap
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -32,14 +28,16 @@ const SupportPage = () => {
       title: "Email Support",
       description: "Send us a detailed message about your issue",
       action: "Send Email",
-      availability: "Response within 4 hours"
+      availability: "Response within 4 hours",
+      contact: "support@nextsqa.com"
     },
     {
       icon: Phone,
       title: "Phone Support",
       description: "Speak directly with our technical experts",
       action: "Call Now",
-      availability: "Mon-Fri 9AM-6PM EST"
+      availability: "Mon-Fri 9AM-6PM EST",
+      contact: "+1 (555) 123-4567"
     }
   ];
 
@@ -126,28 +124,6 @@ const SupportPage = () => {
           </div>
         </section>
 
-        {/* Quick Search */}
-        <section className="py-12 bg-muted/30">
-          <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="max-w-2xl mx-auto"
-            >
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search for help articles, guides, or FAQs..."
-                  className="w-full pl-12 pr-4 py-4 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
         {/* Contact Form & Animation Section */}
         <section className="py-16 md:py-20">
           <div className="container mx-auto px-4 md:px-6">
@@ -162,7 +138,7 @@ const SupportPage = () => {
                 Get in Touch
               </h2>
               <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-                Contact our support team and experience AI-powered assistance
+                Contact our support team for any questions or assistance you need
               </p>
             </motion.div>
 
@@ -220,9 +196,12 @@ const SupportPage = () => {
                       <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed">
                         {option.description}
                       </p>
-                      <div className="flex items-center justify-center text-sm text-primary mb-4">
+                      <div className="flex items-center justify-center text-sm text-primary mb-2">
                         <Clock className="w-4 h-4 mr-2" />
                         {option.availability}
+                      </div>
+                      <div className="text-sm font-medium text-foreground mb-4">
+                        {option.contact}
                       </div>
                       <Button className="w-full hover:scale-105 transition-transform duration-300">
                         {option.action}
@@ -329,37 +308,6 @@ const SupportPage = () => {
                 </Accordion>
               </motion.div>
             </div>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="py-16 md:py-20">
-          <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
-                Still Need Help?
-              </h2>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6 md:mb-8">
-                Our support team is standing by to help you succeed with NextSQA. 
-                Don't hesitate to reach out - we're here for you.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                  <Mail className="w-4 h-4" />
-                  Contact Support
-                </Button>
-                <Button variant="outline" className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                  <Phone className="w-4 h-4" />
-                  Schedule Call
-                </Button>
-              </div>
-            </motion.div>
           </div>
         </section>
       </main>

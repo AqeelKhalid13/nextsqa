@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Bot, CheckCircle, ArrowRight, Mail, Zap, Shield, Users, Clock, Target } from 'lucide-react';
+import { MessageCircle, Mail, Phone, Send, User, Clock, MapPin, Globe, Heart, Star } from 'lucide-react';
 
 const ContactAIAnimation = () => {
   const floatingVariants = {
@@ -41,7 +41,7 @@ const ContactAIAnimation = () => {
   return (
     <div className="relative w-full h-[500px] flex items-center justify-center bg-gradient-to-br from-primary/5 via-blue-500/5 to-purple-500/5 rounded-xl border border-border/50 overflow-hidden">
       
-      {/* Central AI Hub */}
+      {/* Central Contact Hub */}
       <motion.div
         className="relative z-20"
         variants={floatingVariants}
@@ -52,7 +52,7 @@ const ContactAIAnimation = () => {
           variants={pulseVariants}
           animate="animate"
         >
-          <Bot className="w-12 h-12 text-white" />
+          <MessageCircle className="w-12 h-12 text-white" />
         </motion.div>
         
         {/* Central glow effect */}
@@ -70,13 +70,13 @@ const ContactAIAnimation = () => {
         />
       </motion.div>
 
-      {/* Orbiting Elements */}
+      {/* Orbiting Contact Elements */}
       <motion.div
         className="absolute inset-0"
         variants={orbitVariants}
         animate="animate"
       >
-        {/* Contact Form Orbit */}
+        {/* Email Contact Card */}
         <motion.div
           className="absolute top-16 left-8 w-48 bg-background/80 backdrop-blur-md rounded-lg border border-border shadow-xl"
           style={{ transformOrigin: '200px 200px' }}
@@ -84,8 +84,8 @@ const ContactAIAnimation = () => {
         >
           <div className="p-4">
             <div className="flex items-center mb-3">
-              <MessageCircle className="w-5 h-5 text-primary mr-2" />
-              <span className="text-sm font-medium">Contact Form</span>
+              <Mail className="w-5 h-5 text-primary mr-2" />
+              <span className="text-sm font-medium">Email Us</span>
             </div>
             <div className="space-y-2">
               <div className="h-2 bg-muted rounded w-full"></div>
@@ -95,7 +95,7 @@ const ContactAIAnimation = () => {
           </div>
         </motion.div>
 
-        {/* AI Testing Orbit */}
+        {/* Phone Support Card */}
         <motion.div
           className="absolute bottom-16 right-8 w-48 bg-background/80 backdrop-blur-md rounded-lg border border-border shadow-xl"
           style={{ transformOrigin: '-200px -200px' }}
@@ -103,8 +103,8 @@ const ContactAIAnimation = () => {
         >
           <div className="p-4">
             <div className="flex items-center mb-3">
-              <Zap className="w-5 h-5 text-yellow-500 mr-2" />
-              <span className="text-sm font-medium">AI Testing</span>
+              <Phone className="w-5 h-5 text-green-500 mr-2" />
+              <span className="text-sm font-medium">Call Support</span>
             </div>
             <div className="space-y-2">
               <motion.div
@@ -113,8 +113,8 @@ const ContactAIAnimation = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1, duration: 1 }}
               >
-                <CheckCircle className="w-3 h-3 mr-1" />
-                <span>Tests automated</span>
+                <Clock className="w-3 h-3 mr-1" />
+                <span>Available now</span>
               </motion.div>
               <motion.div
                 className="flex items-center text-xs text-blue-500"
@@ -122,36 +122,73 @@ const ContactAIAnimation = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 1 }}
               >
-                <Target className="w-3 h-3 mr-1" />
-                <span>Issues detected</span>
+                <Globe className="w-3 h-3 mr-1" />
+                <span>24/7 Support</span>
               </motion.div>
             </div>
           </div>
         </motion.div>
       </motion.div>
 
-      {/* Floating Icons */}
-      {[Mail, Shield, Users, Clock].map((Icon, i) => (
+      {/* Free-floating Contact Icons */}
+      {[
+        { Icon: Send, color: 'text-blue-500', delay: 0 },
+        { Icon: User, color: 'text-green-500', delay: 0.5 },
+        { Icon: Heart, color: 'text-red-500', delay: 1 },
+        { Icon: Star, color: 'text-yellow-500', delay: 1.5 },
+        { Icon: MapPin, color: 'text-purple-500', delay: 2 },
+        { Icon: Clock, color: 'text-orange-500', delay: 2.5 }
+      ].map(({ Icon, color, delay }, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{
-            left: `${25 + (i * 15)}%`,
-            top: `${20 + (i % 2) * 60}%`,
+            left: `${20 + (i * 12)}%`,
+            top: `${15 + (i % 3) * 25}%`,
           }}
           animate={{
-            y: [0, -10, 0],
-            rotate: [0, 360],
-            opacity: [0.4, 0.8, 0.4],
+            x: [0, 30, -20, 0],
+            y: [0, -25, 15, 0],
+            rotate: [0, 180, 360],
+            opacity: [0.4, 0.9, 0.6, 0.4],
           }}
           transition={{
-            duration: 3 + (i * 0.5),
+            duration: 6 + (i * 0.3),
             repeat: Infinity,
-            delay: i * 0.5,
+            delay: delay,
+            ease: "easeInOut"
           }}
         >
-          <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <Icon className="w-4 h-4 text-primary" />
+          <div className="w-10 h-10 bg-background/60 rounded-full flex items-center justify-center backdrop-blur-sm border border-border/30 shadow-lg">
+            <Icon className={`w-5 h-5 ${color}`} />
+          </div>
+        </motion.div>
+      ))}
+
+      {/* Floating Message Bubbles */}
+      {Array.from({ length: 6 }).map((_, i) => (
+        <motion.div
+          key={`bubble-${i}`}
+          className="absolute"
+          style={{
+            left: `${Math.random() * 80 + 10}%`,
+            top: `${Math.random() * 80 + 10}%`,
+          }}
+          animate={{
+            x: [0, Math.random() * 40 - 20],
+            y: [0, Math.random() * 40 - 20],
+            scale: [0.8, 1.2, 0.8],
+            opacity: [0.3, 0.7, 0.3],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 2,
+            repeat: Infinity,
+            delay: i * 0.8,
+            ease: "easeInOut",
+          }}
+        >
+          <div className="w-6 h-6 bg-primary/30 rounded-full flex items-center justify-center">
+            <div className="w-2 h-2 bg-primary rounded-full"></div>
           </div>
         </motion.div>
       ))}
@@ -198,7 +235,7 @@ const ContactAIAnimation = () => {
 
       {/* Animated Particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-primary/60 rounded-full"
@@ -208,13 +245,14 @@ const ContactAIAnimation = () => {
             }}
             animate={{
               y: [0, -100, 0],
+              x: [0, Math.random() * 20 - 10, 0],
               opacity: [0, 1, 0],
               scale: [0, 1, 0],
             }}
             transition={{
               duration: 4,
               repeat: Infinity,
-              delay: i * 0.5,
+              delay: i * 0.3,
               ease: "easeInOut",
             }}
           />
@@ -229,7 +267,7 @@ const ContactAIAnimation = () => {
         transition={{ delay: 1.5 }}
       >
         <p className="text-muted-foreground text-sm font-medium">
-          Contact support meets AI automation
+          We're here to help you succeed
         </p>
       </motion.div>
     </div>
