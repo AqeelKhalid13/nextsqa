@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const containerVariants = {
@@ -86,16 +88,22 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <h3 className="text-lg font-bold mb-4">Product</h3>
             <ul className="space-y-3">
-              {["Features", "Pricing", "Documentation", "Changelog"].map((item, i) => (
-                <motion.li key={item}>
-                  <motion.a 
-                    href="#" 
-                    className="text-gray-400 hover:text-white transition-colors"
-                    whileHover={{ x: 5, color: "#ffffff" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    {item}
-                  </motion.a>
+              {[
+                { label: "Features", href: "/features" },
+                { label: "Pricing", href: "#" },
+                { label: "Documentation", href: "#" },
+                { label: "Changelog", href: "#" }
+              ].map((item, i) => (
+                <motion.li key={item.label}>
+                  <Link to={item.href}>
+                    <motion.span 
+                      className="text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ x: 5, color: "#ffffff" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
@@ -105,16 +113,22 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <h3 className="text-lg font-bold mb-4">Resources</h3>
             <ul className="space-y-3">
-              {["Blog", "Community", "API Reference", "Support"].map((item, i) => (
-                <motion.li key={item}>
-                  <motion.a 
-                    href="#" 
-                    className="text-gray-400 hover:text-white transition-colors"
-                    whileHover={{ x: 5, color: "#ffffff" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    {item}
-                  </motion.a>
+              {[
+                { label: "Blog", href: "/blogs" },
+                { label: "Community", href: "/community" },
+                { label: "API Reference", href: "#" },
+                { label: "Support", href: "/support" }
+              ].map((item, i) => (
+                <motion.li key={item.label}>
+                  <Link to={item.href}>
+                    <motion.span 
+                      className="text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ x: 5, color: "#ffffff" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
@@ -124,16 +138,22 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <h3 className="text-lg font-bold mb-4">Company</h3>
             <ul className="space-y-3">
-              {["About", "Careers", "Privacy Policy", "Terms of Service"].map((item, i) => (
-                <motion.li key={item}>
-                  <motion.a 
-                    href="#" 
-                    className="text-gray-400 hover:text-white transition-colors"
-                    whileHover={{ x: 5, color: "#ffffff" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    {item}
-                  </motion.a>
+              {[
+                { label: "About", href: "/about" },
+                { label: "Careers", href: "#" },
+                { label: "Privacy Policy", href: "#" },
+                { label: "Terms of Service", href: "#" }
+              ].map((item, i) => (
+                <motion.li key={item.label}>
+                  <Link to={item.href}>
+                    <motion.span 
+                      className="text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ x: 5, color: "#ffffff" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </Link>
                 </motion.li>
               ))}
             </ul>

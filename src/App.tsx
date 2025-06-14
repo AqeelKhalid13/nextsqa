@@ -28,6 +28,8 @@ import AutomationPage from "./pages/AutomationPage";
 import QualityMetricsPage from "./pages/QualityMetricsPage";
 import SettingsPage from "./pages/SettingsPage";
 import FlowDiagramPage from "./pages/FlowDiagramPage";
+import SupportPage from "./pages/SupportPage";
+import CommunityPage from "./pages/CommunityPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +65,8 @@ const App = () => (
             <Route path="/quality-metrics" element={<QualityMetricsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/flow-diagram" element={<FlowDiagramPage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/community" element={<CommunityPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
