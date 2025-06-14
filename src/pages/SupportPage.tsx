@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -123,8 +124,8 @@ const SupportPage = () => {
 
         {/* Contact Form Section with Background Animation */}
         <section className="py-16 md:py-20 relative">
-          {/* Background Animation */}
-          <div className="absolute inset-0 overflow-hidden opacity-30">
+          {/* Background Animation - Full Width */}
+          <div className="absolute inset-0 w-full h-full overflow-hidden opacity-20">
             <ContactAIAnimation />
           </div>
           
