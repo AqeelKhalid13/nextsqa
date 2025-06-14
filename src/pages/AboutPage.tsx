@@ -16,7 +16,9 @@ import {
   Clock, 
   TrendingUp,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Building2,
+  Compass
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -109,6 +111,9 @@ const AboutPage = () => {
                   viewport={{ once: true }}
                   className="hover:scale-105 transition-transform duration-300"
                 >
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4 md:mb-6">
+                    <Building2 className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                  </div>
                   <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
                     Who We Are
                   </h2>
@@ -128,6 +133,9 @@ const AboutPage = () => {
                   viewport={{ once: true }}
                   className="hover:scale-105 transition-transform duration-300"
                 >
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4 md:mb-6">
+                    <Target className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                  </div>
                   <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
                     Our Mission
                   </h2>
@@ -194,7 +202,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Our Story & Our Mission Section */}
+        {/* Our Story & Our Vision Section */}
         <section className="py-16 md:py-20">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-6xl mx-auto">
@@ -221,7 +229,7 @@ const AboutPage = () => {
                   </p>
                 </motion.div>
 
-                {/* Our Mission */}
+                {/* Our Vision */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -230,16 +238,15 @@ const AboutPage = () => {
                   className="hover:scale-105 transition-transform duration-300"
                 >
                   <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4 md:mb-6">
-                    <Target className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                    <Compass className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                   </div>
                   <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
-                    Our Mission
+                    Our Vision
                   </h2>
                   <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                    We believe that software testing should enable innovation—not slow it down. 
-                    That's why we built NextSQA: to deliver intelligent, developer-friendly testing 
-                    solutions that integrate effortlessly into your existing workflows. Our goal is 
-                    to empower teams to find bugs early, reduce manual effort, and ship with confidence.
+                    We're building the future of testing. Where AI, automation, and analytics work 
+                    together to create a seamless quality assurance experience. Our platform is 
+                    designed to help teams shift left, speed up releases, and build better software, faster.
                   </p>
                 </motion.div>
               </div>
@@ -286,33 +293,6 @@ const AboutPage = () => {
                   </Card>
                 </motion.div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Vision Section */}
-        <section className="py-16 md:py-20">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-4xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-center hover:scale-105 transition-transform duration-300"
-              >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
-                  <Star className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                </div>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
-                  Our Vision
-                </h2>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  We're building the future of testing. Where AI, automation, and analytics work 
-                  together to create a seamless quality assurance experience. Our platform is 
-                  designed to help teams shift left, speed up releases, and build better software, faster.
-                </p>
-              </motion.div>
             </div>
           </div>
         </section>
