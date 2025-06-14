@@ -114,6 +114,7 @@ const Navbar = () => {
     { name: "How it works", url: "/how-it-works" },
     { name: "Features", url: "/features" },
     { name: "Use Cases", url: "/use-cases" },
+    { name: "About", url: "/about" },
     { name: "Blogs", url: "/blogs" },
     { name: "Pricing", url: "#pricing" }
   ];
