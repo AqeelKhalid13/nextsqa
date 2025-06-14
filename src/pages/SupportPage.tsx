@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -122,14 +123,9 @@ const SupportPage = () => {
           </div>
         </section>
 
-        {/* Contact Form Section with Background Animation */}
-        <section className="py-16 md:py-20 relative">
-          {/* Background Animation - Full Width */}
-          <div className="absolute inset-0 w-full h-full overflow-hidden opacity-20">
-            <ContactAIAnimation />
-          </div>
-          
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
+        {/* Contact Form Section with Side Animation */}
+        <section className="py-16 md:py-20">
+          <div className="container mx-auto px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -145,8 +141,16 @@ const SupportPage = () => {
               </p>
             </motion.div>
 
-            <div className="flex justify-center max-w-2xl mx-auto">
-              <ContactForm />
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto items-center">
+              {/* Contact Form */}
+              <div className="order-2 lg:order-1">
+                <ContactForm />
+              </div>
+              
+              {/* Animation */}
+              <div className="order-1 lg:order-2">
+                <ContactAIAnimation />
+              </div>
             </div>
           </div>
         </section>
@@ -311,3 +315,4 @@ const SupportPage = () => {
 };
 
 export default SupportPage;
+
