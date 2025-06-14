@@ -2,13 +2,14 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ContactForm from '@/components/forms/ContactForm';
+import ContactAIAnimation from '@/components/animations/ContactAIAnimation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { 
   HelpCircle, 
-  MessageCircle, 
   Mail, 
   Book, 
   Video, 
@@ -25,13 +26,6 @@ import { Link } from 'react-router-dom';
 
 const SupportPage = () => {
   const supportOptions = [
-    {
-      icon: MessageCircle,
-      title: "Live Chat",
-      description: "Get instant help from our support team",
-      action: "Start Chat",
-      availability: "24/7 Available"
-    },
     {
       icon: Mail,
       title: "Email Support",
@@ -135,7 +129,7 @@ const SupportPage = () => {
           </div>
         </section>
 
-        {/* Support Options */}
+        {/* Contact Form & Animation Section */}
         <section className="py-16 md:py-20">
           <div className="container mx-auto px-4 md:px-6">
             <motion.div
@@ -146,14 +140,48 @@ const SupportPage = () => {
               className="text-center mb-12 md:mb-16"
             >
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
-                Get Support Your Way
+                Get in Touch
+              </h2>
+              <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
+                Contact our support team and experience AI-powered assistance
+              </p>
+            </motion.div>
+
+            <div className="grid lg:grid-cols-2 gap-8 md:gap-12 max-w-7xl mx-auto">
+              {/* Contact Form */}
+              <ContactForm />
+              
+              {/* Animation */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <ContactAIAnimation />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Support Options */}
+        <section className="py-16 md:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 md:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12 md:mb-16"
+            >
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-foreground">
+                Alternative Support Methods
               </h2>
               <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
                 Choose the support method that works best for you
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
               {supportOptions.map((option, index) => (
                 <motion.div
                   key={index}
@@ -189,7 +217,7 @@ const SupportPage = () => {
         </section>
 
         {/* Help Resources */}
-        <section className="py-16 md:py-20 bg-muted/30">
+        <section className="py-16 md:py-20">
           <div className="container mx-auto px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -237,7 +265,7 @@ const SupportPage = () => {
         </section>
 
         {/* Common Issues */}
-        <section className="py-16 md:py-20">
+        <section className="py-16 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto">
               <motion.div
@@ -282,8 +310,8 @@ const SupportPage = () => {
           </div>
         </section>
 
-        {/* Contact CTA */}
-        <section className="py-16 md:py-20 bg-muted/30">
+        {/* Final CTA */}
+        <section className="py-16 md:py-20">
           <div className="container mx-auto px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -301,12 +329,12 @@ const SupportPage = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                  <MessageCircle className="w-4 h-4" />
-                  Start Live Chat
+                  <Mail className="w-4 h-4" />
+                  Contact Support
                 </Button>
                 <Button variant="outline" className="flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                  <Mail className="w-4 h-4" />
-                  Send Email
+                  <Phone className="w-4 h-4" />
+                  Schedule Call
                 </Button>
               </div>
             </motion.div>
