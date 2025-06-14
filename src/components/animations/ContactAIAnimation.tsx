@@ -28,7 +28,7 @@ const ContactAIAnimation = () => {
   };
 
   return (
-    <div className="relative w-full h-[500px] flex items-center justify-center bg-gradient-to-br from-primary/5 via-blue-500/5 to-purple-500/5 rounded-xl border border-border/50 overflow-hidden">
+    <div className="relative w-full h-[500px] flex items-center justify-center rounded-xl overflow-hidden">
       
       {/* Central Contact Hub */}
       <motion.div
