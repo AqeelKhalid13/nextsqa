@@ -139,9 +139,6 @@ const CommunityPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <Badge variant="secondary" className="mb-4 md:mb-6">
-                NextSQA Community
-              </Badge>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-foreground">
                 Join a Community of{' '}
                 <span className="text-gradient-primary">Testing Innovators</span>

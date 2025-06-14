@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -83,9 +82,6 @@ const AboutPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <Badge variant="secondary" className="mb-4 md:mb-6">
-                About NextSQA
-              </Badge>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-foreground">
                 Redefining Quality Assurance with{' '}
                 <span className="text-gradient-primary">AI Innovation</span>
